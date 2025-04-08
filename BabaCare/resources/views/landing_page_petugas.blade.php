@@ -1,67 +1,88 @@
-<?php
-  session_start();
-?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BabaCare - Landing Page Petugas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body style="background-color: #F7F8FD;">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="position-absolute top-0 start-0 p-5">
-                <a class="navbar-brand" href="#">
-                    <img src="storage/logo.png" alt="Logo" width="118" height="49.11">
-                </a>
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+@section('header', 'Dashboard')
+
+@section('content')
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Management Pasien Card -->
+    <a href="{{ route('patients.index') }}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-user text-3xl text-blue-500 mr-3"></i>
+                <h3 class="text-xl font-semibold text-gray-800">Management Pasien</h3>
             </div>
-            <nav class="col-auto bg-white shadow-sm p-3 d-flex flex-column justify-content-start position-fixed" style="height: 85vh; top: 15vh; width: 12.5%; overflow-y: auto; font-family: 'Roboto', sans-serif; min-height: 100vh;">
-                <ul class="nav flex-column mt-5 w-100">
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/dashboard.svg" alt="Dashboard" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/tenaga_medis.svg" alt="Patients" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px">Patients</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/appointments.svg" alt="Appointments" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px;">Appointments</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="top-right-icons position-fixed d-flex align-items-center" style="top: 20px; left: 1300px; gap: 50px; z-index: 9999;">
-                <a class="position-relative" href="#">
-                    <img src="storage/notifikasi.svg" alt="Notifikasi" style="width: 40px; height: 35px;">
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">3</span>
-                </a>
-                <a class="position-relative" href="#" style="text-decoration: none;">
-                    <img src="storage/avatar.svg" alt="Profile" style="width: 40px; height: 40px;">
-                    <span style="margin-left: 10px; font-size: 14px; color: #34495E;">Admin</span> 
-                </a>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+        <p class="text-gray-600">Kelola data pasien, tambah pasien baru, dan lihat riwayat perawatan.</p>
+    </a>
+
+    <!-- Laporan Data Pasien Card -->
+    <a href="{{ route('reports.index') }}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-chart-line text-3xl text-green-500 mr-3"></i>
+                <h3 class="text-xl font-semibold text-gray-800">Laporan Data Pasien</h3>
             </div>
-            <main class="col-md-9 ms-auto col-lg-10 px-md-4 d-flex flex-column justify-content-center align-items-start py-5 position-relative pe-5" style="font-family: 'Roboto', sans-serif; min-height: 100vh;">
-                <div class="ms-5 ps-5">
-                    <h1 class="fw-bold" style="font-size: 52px">Puskesmas</h1>
-                    <h1 class="fw-bold mb-2" style="font-size: 52px">Babagan Tarogong</h1>
-                    <p class="text-muted mb-5" style="font-size: 16px">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
-                    <button class="btn btn-outline-dark" style="font-size: 16px">Contact Us</button>
-                </div>
-                <div class="position-absolute bottom-0 end-0" style="z-index: -1;">
-                    <img src="storage/background_lingkaran.png" alt="Illustration" class="img-fluid" style="max-width: 530px;">
-                </div>
-            </main>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+        <p class="text-gray-600">Lihat laporan dan statistik data pasien.</p>
+    </a>
+</div>
+
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-users text-3xl text-blue-500 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Total Pasien</h3>
+                <p class="text-2xl font-bold text-gray-900">{{ $totalPatients ?? 0 }}</p>
+            </div>
         </div>
     </div>
-</body>
-</html>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-calendar-day text-3xl text-green-500 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Pasien Hari Ini</h3>
+                <p class="text-2xl font-bold text-gray-900">{{ $todayPatients ?? 0 }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-procedures text-3xl text-red-500 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Dalam Perawatan</h3>
+                <p class="text-2xl font-bold text-gray-900">{{ $inCarePatients ?? 0 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Selamat Datang di BabaCare</h2>
+    <p class="text-gray-600 mb-4">Sistem manajemen pasien yang membantu Anda dalam mengelola data pasien dengan lebih efisien.</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Manajemen data pasien yang terintegrasi</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Pencatatan riwayat perawatan yang lengkap</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Laporan dan statistik yang informatif</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Antarmuka yang mudah digunakan</p>
+        </div>
+    </div>
+</div>
+@endsection
