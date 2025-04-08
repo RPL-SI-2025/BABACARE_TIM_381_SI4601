@@ -6,6 +6,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Patient;
 
+
+
 Route::get('/', function () {
     $totalPatients = Patient::count();
     $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
@@ -16,5 +18,5 @@ Route::get('/', function () {
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'submit'])->name('register.submit');
