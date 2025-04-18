@@ -34,6 +34,13 @@
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('patients.*') ? 'bg-gray-100' : '' }}">
                         <i class="fas fa-user w-5 h-5 mr-2"></i>
                         <span>Management Pasien</span>
+                        
+                    <a href="{{ route('obats.index') }}" 
+                       class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('obats.*') ? 'bg-gray-100' : '' }}">
+                        <i class="fas fa-capsules w-5 h-5 mr-2"></i>
+                        <span>Manajemen Obat</span>
+</a>
+
                     </a>
                     <a href="{{ route('reports.index') }}" 
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-gray-100' : '' }}">

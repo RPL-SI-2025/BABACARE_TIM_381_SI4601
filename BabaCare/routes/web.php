@@ -16,4 +16,5 @@ Route::get('/', function () {
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
 Route::resource('obats', ObatController::class);

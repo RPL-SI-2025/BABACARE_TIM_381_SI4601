@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('jenis obat');
-            $table->string('golongan obat');
+            $table->string('nama_obat');
+            $table->string('kategori');
+            $table->string('golongan');
             $table->timestamps();
         });
     }

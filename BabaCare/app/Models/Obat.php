@@ -9,5 +9,14 @@ class Obat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'jenis', 'golongan obat'];
+    // Tentukan nama tabel jika tidak sesuai dengan penamaan konvensional
+    protected $table = 'obats';
+
+    // Tentukan kolom yang bisa diisi (fillable)
+    protected $fillable = [
+        'nama_obat',
+        'kategori',
+        'golongan',   
+    ];
+
 }
