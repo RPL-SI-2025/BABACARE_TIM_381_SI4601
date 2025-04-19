@@ -69,8 +69,8 @@ class ObatController extends Controller
         $obat = Obat::findOrFail($id); // Mencari obat berdasarkan ID
         $obat->update([
             'nama_obat' => $request->nama_obat,
-            'golongan' => $request->kategori,
-            'kategori' => $request->golongan,
+            'golongan' => $request->golongan,
+            'kategori' => $request->kategori,
             
         ]);
 
