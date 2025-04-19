@@ -37,7 +37,6 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        // Check if validation error occurs
         $response->assertSessionHasErrors('email');
     }
 
@@ -52,7 +51,6 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'short',
         ]);
 
-        // Check if validation error occurs
         $response->assertSessionHasErrors('password');
     }
 }
