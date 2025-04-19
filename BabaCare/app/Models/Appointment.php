@@ -20,8 +20,7 @@ class Appointment extends Model
         'tanggal_pelaksanaan',
         'waktu_pelaksanaan',
         'specialist',
-        'keluhan_utama',
-        'status'
+        'keluhan_utama'
     ];
 
     /**

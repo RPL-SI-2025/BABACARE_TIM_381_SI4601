@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('landing_page_user', compact('totalPatients', 'todayPatients', 'inCarePatients'));
 })->name('landing');
 
-Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::resource('appointments', AppointmentController::class);
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

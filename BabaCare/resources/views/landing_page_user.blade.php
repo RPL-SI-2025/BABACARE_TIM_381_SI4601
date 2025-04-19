@@ -1,88 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BabaCare - @yield('title')</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body class="bg-gray-100">
-    <div class="flex h-screen">
-        <div class="w-64 bg-white shadow-lg">
-            <div class="p-6">
-                <div class="flex items-center">
-                    <img src="{{ asset('images/logo.png') }}" alt="BabaCare" class="h-8" />
-                </div>
+@extends('layouts.app')
+
+@section('title', 'Dashboard Pasien')
+@section('header', 'Dashboard')
+
+@section('content')
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <!-- Pendaftaran Janji Temu -->
+    <a href="{{ route('appointments.create') }}" class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+                <i class="fas fa-calendar-plus text-3xl text-blue-500 mr-3"></i>
+                <h3 class="text-xl font-semibold text-gray-800">Pendaftaran Janji Temu</h3>
             </div>
-
-            <nav class="mt-6">
-                <div class="px-6 py-4 space-y-2">
-                    
-                        <a href="{{ route('landing') }}" 
-                           class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('landing') ? 'bg-gray-100' : '' }}">
-                            <i class="fas fa-home w-5 h-5 mr-2"></i>
-                            <span>Dashboard</span>
-                        </a>
-                        <a href="{{ route('appointments.create') }}" 
-                           class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('appointments.create') ? 'bg-gray-100' : '' }}">
-                            <i class="fas fa-calendar-plus w-5 h-5 mr-2"></i>
-                            <span>Pendaftaran</span>
-                        </a>
-                    
-                </div>
-            </nav>
+            <i class="fas fa-chevron-right text-gray-400"></i>
         </div>
+        <p class="text-gray-600">Ajukan janji temu baru dengan dokter spesialis pilihan Anda.</p>
+    </a>
+</div>
 
-        <div class="flex-1">
-            <header class="bg-white shadow">
-                <div class="px-4 py-6 flex items-center justify-between">
-                    <h1 class="text-2xl font-semibold text-gray-800">@yield('header')</h1>
-                    <div class="flex items-center space-x-4">
-                        <button class="text-gray-500 hover:text-gray-600">
-                            <i class="fas fa-bell text-xl"></i>
-                        </button>
-                        <div class="flex items-center space-x-2">
-                                <img src="https://ui-avatars.com/api/?name=Patient&background=0D8ABC&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
-                                <span class="text-gray-700">User</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <main class="p-6">
-                @if(session('success'))
-                    <script>
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil!',
-                            text: "{{ session('success') }}",
-                            timer: 3000,
-                            showConfirmButton: false
-                        });
-                    </script>
-                @endif
-
-                @if(session('error'))
-                    <script>
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error!',
-                            text: "{{ session('error') }}",
-                            timer: 3000,
-                            showConfirmButton: false
-                        });
-                    </script>
-                @endif
-
-                @yield('content')
-            </main>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-notes-medical text-3xl text-green-500 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Riwayat Janji Temu</h3>
+                <p class="text-sm text-gray-600">Lihat status dan jadwal janji temu Anda</p>
+            </div>
         </div>
     </div>
 
-    @stack('scripts')
-</body>
-</html>
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-user text-3xl text-blue-400 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Profil Pasien</h3>
+                <p class="text-sm text-gray-600">Informasi pribadi dan kontak Anda</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center">
+            <i class="fas fa-shield-alt text-3xl text-yellow-500 mr-3"></i>
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">Status Pendaftaran</h3>
+                <p class="text-sm text-gray-600">Cek status pendaftaran janji temu Anda</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8 bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Selamat Datang di BabaCare</h2>
+    <p class="text-gray-600 mb-4">Platform pendaftaran dan manajemen janji temu kesehatan Anda.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Pendaftaran janji temu cepat dan mudah</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Notifikasi jadwal dan status janji temu</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Riwayat konsultasi dapat dilihat kapan saja</p>
+        </div>
+        <div class="flex items-start">
+            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+            <p class="text-gray-600">Privasi dan keamanan data Anda terjamin</p>
+        </div>
+    </div>
+</div>
+@endsection
