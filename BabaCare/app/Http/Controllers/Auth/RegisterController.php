@@ -1,3 +1,4 @@
+<?php
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -8,12 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function showForm()
+    
+    public function showRegistrationForm()
     {
         return view('register_page');
     }
 
-    public function submit(Request $request)
+    public function register(Request $request)
     {
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -35,6 +37,6 @@ class RegisterController extends Controller
         ]);
 
         auth()->login($user);
-        return redirect()->route('user.landing'); // Sesuaikan dengan route kamu
+        return redirect()->route('landing');
     }
 }
