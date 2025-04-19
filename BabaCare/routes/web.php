@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Models\Patient;
 
 Route::get('/', function () {
@@ -10,8 +11,16 @@ Route::get('/', function () {
     $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
     $inCarePatients = Patient::where('jenis_perawatan', 'Rawat Inap')->count();
 
-    return view('landing_page_petugas', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+    return view('register_page', compact('totalPatients', 'todayPatients', 'inCarePatients'));
 })->name('landing');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+Route::get('/landing', function () {
+    return view('landing_page_petugas');
+})->name('landing');
+
+
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
