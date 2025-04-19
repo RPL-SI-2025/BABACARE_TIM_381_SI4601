@@ -11,10 +11,16 @@ Route::get('/', function () {
     $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
     $inCarePatients = Patient::where('jenis_perawatan', 'Rawat Inap')->count();
 
-    return view('login_page', compact('totalPatients', 'todayPatients', 'inCarePatients'));
-})->name('login');
+    return view('register_page', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+})->name('landing');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+Route::get('/landing', function () {
+    return view('landing_page_petugas');
+})->name('landing');
+
+
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
