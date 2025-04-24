@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.obats')
 
 @section('title', 'Daftar Obat')
 @section('header', 'Data Obat')

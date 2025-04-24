@@ -39,10 +39,10 @@
                         </a>
                     </li>
                     <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
+                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="/obats">
                             <img src="storage/manajemen_data.svg" alt="ManajemenObat" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px;">Manajemen Data</span>
-                            <span style="color: #95A5A6; font-size: 13px;">Obat</span>
+                            <span style="color: #95A5A6; font-size: 13px;">Manajemen Data obat</span>
+
                         </a>
                     </li>
                 </ul>
@@ -60,7 +60,7 @@
             <main class="col-md-9 ms-auto col-lg-10 px-md-4 d-flex flex-column justify-content-center align-items-start py-5 position-relative pe-5" style="font-family: 'Roboto', sans-serif; min-height: 100vh;">
                 <div class="ms-5 ps-5">
                     <h1 class="fw-bold" style="font-size: 52px">Puskesmas</h1>
-                    <h1 class="fw-bold mb-2" style="font-size: 52px">Babagan Tarogong</h1>
+                    <h1 class="fw-bold mb-2" style="font-size: 52px">Babakan Tarogong</h1>
                     <p class="text-muted mb-5" style="font-size: 16px">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
                     <button class="btn btn-outline-dark" style="font-size: 16px">Contact Us</button>
                 </div>
