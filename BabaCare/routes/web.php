@@ -11,7 +11,7 @@ Route::get('/', function () {
     $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
     $inCarePatients = Patient::where('jenis_perawatan', 'Rawat Inap')->count();
 
-    return view('landing_page_petugas', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+    return view('landing_page_admin', compact('totalPatients', 'todayPatients', 'inCarePatients'));
 })->name('landing');
 
 Route::resource('patients', PatientController::class);
@@ -30,3 +30,4 @@ Route::get('/admin', function () {
 Route::get('/petugas', function () {
     return view('layouts/landing_page_petugas');
 });
+
