@@ -15,3 +15,15 @@ Route::get('/', function () {
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+Route::get('/user', function () {
+    return view('layouts/landing_page_user');
+});
+
+Route::get('/admin', function () {
+    return view('layouts/landing_page_admin');
+});
+
+Route::get('/petugas', function () {
+    return view('layouts/landing_page_petugas');
+});
