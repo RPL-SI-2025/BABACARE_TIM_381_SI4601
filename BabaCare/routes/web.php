@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
 use App\Models\Patient;
+use App\Http\Controllers\ObatController;
 
 Route::get('/', function () {
     $totalPatients = Patient::count();
@@ -15,6 +16,8 @@ Route::get('/', function () {
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+Route::resource('obats', ObatController::class);
 
 Route::get('/user', function () {
     return view('layouts/landing_page_user');
