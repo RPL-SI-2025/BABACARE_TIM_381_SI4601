@@ -55,8 +55,13 @@
                             <i class="fas fa-bell text-xl"></i>
                         </button>
                         <div class="flex items-center space-x-2">
-                            <img src="https://ui-avatars.com/api/?name=Dokter&background=0D8ABC&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
-                            <span class="text-gray-700">Dokter</span>
+                            <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
+                            <div class="flex flex-col">
+                                <span class="text-gray-700">User</span>
+                                <a href="{{ route('user.profile.edit') }}" class="text-sm text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-edit mr-1"></i>Edit Profil
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

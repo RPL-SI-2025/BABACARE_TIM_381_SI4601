@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserProfileController;
 use App\Models\Patient;
 
 Route::get('/', function () {
@@ -15,3 +16,7 @@ Route::get('/', function () {
 
 Route::resource('patients', PatientController::class);
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+// User Profile Routes
+Route::get('/user/profile/edit', [UserProfileController::class, 'edit'])->name('user.profile.edit');
+Route::put('/user/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
