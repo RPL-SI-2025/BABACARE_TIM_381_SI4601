@@ -6,11 +6,19 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Models\Patient;
+use App\Http\Controllers\ObatController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 
-// Rute login
+Route::get('/report', function () {
+    $totalPatients = Patient::count();
+    $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
+    $inCarePatients = Patient::where('jenis_perawatan', 'Rawat Inap')->count();
+
+    return view('landing_page_petugas', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+})->name('landing');
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
@@ -38,3 +46,7 @@ Route::resource('patients', PatientController::class);
 
 // Rute laporan
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+Route::resource('obats', ObatController::class);
+
+
