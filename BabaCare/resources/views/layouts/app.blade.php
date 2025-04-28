@@ -39,11 +39,6 @@
 </a>
 
                     </a>
-                    <a href="{{ route('appointments.create') }}" 
-                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('appointments.*') ? 'bg-gray-100' : '' }}">
-                        <i class="fas fa-calendar-plus w-5 h-5 mr-2"></i>
-                        <span>Pendaftaran</span>
-                    </a>
                     <a href="{{ route('reports.index') }}" 
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-gray-100' : '' }}">
                         <i class="fas fa-chart-line w-5 h-5 mr-2"></i>

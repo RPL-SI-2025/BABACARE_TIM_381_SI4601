@@ -13,14 +13,11 @@ use App\Http\Controllers\ObatController;
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 
 Route::get('/report', function () {
-    // if (auth()->user() && auth()->user()->role === 'pasien') {
-    //     return redirect()->route('appointments.create');
-    // }
     $totalPatients = Patient::count();
     $todayPatients = Patient::whereDate('waktu_periksa', today())->count();
     $inCarePatients = Patient::where('jenis_perawatan', 'Rawat Inap')->count();
 
-    return view('landing_page_user', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+    return view('landing_page_petugas', compact('totalPatients', 'todayPatients', 'inCarePatients'));
 })->name('landing');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

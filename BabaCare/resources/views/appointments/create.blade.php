@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('landing_page_user')
 
 @section('title', 'Pendaftaran Pasien')
 @section('header', 'Pendaftaran Pasien')
