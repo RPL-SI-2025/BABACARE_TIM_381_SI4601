@@ -16,6 +16,15 @@ class pengguna extends Authenticatable
         'email',
         'password',
         'role',
+        'first_name',
+        'last_name',
+        'age',
+        'birth_date',
+        'phone',
+        'address',
+        'visit_history',
+        'disease_history',
+        'allergy'
     ];
 
     protected $hidden = [
