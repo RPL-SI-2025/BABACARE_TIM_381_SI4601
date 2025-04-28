@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppointmentController;
 use App\Models\Patient;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\UserProfileController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -40,6 +41,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user', function () {
         return view('landing_page_user');
     })->name('user.landing');
+
+    // User Profile Routes
+    Route::get('/user/profile/edit', [UserProfileController::class, 'edit'])->name('user.profile.edit');
+    Route::put('/user/profile/update', [UserProfileController::class, 'update'])->name('user.profile.update');
+
+    // Logout Route
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
 
 // Resource route untuk pasien

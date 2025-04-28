@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AppointmentController extends Controller
@@ -32,7 +33,6 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         try {
-            // $user = auth()->user();
             $messages = [
                 'required' => ':attribute wajib diisi.',
                 'string' => ':attribute harus berupa teks.',
@@ -56,16 +56,15 @@ class AppointmentController extends Controller
             ]);
             
 
-            $user = 1;
-            // $appointment->user_id = $user->id;
             $appointment = new Appointment();
-            $appointment->user_id = $user;
+            $appointment->user_id = Auth::id(); // Bukan $user
             $appointment->tanggal_reservasi = $validated['tanggal_reservasi'];
             $appointment->tanggal_pelaksanaan = $validated['tanggal_pelaksanaan'];
             $appointment->waktu_pelaksanaan = $validated['waktu_pelaksanaan'];
             $appointment->specialist = $validated['specialist'];
             $appointment->keluhan_utama = $validated['keluhan_utama'];
             $appointment->save();
+
 
             return redirect()->route('appointments.create')
                 ->with('success', 'Janji temu berhasil dibuat.');

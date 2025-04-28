@@ -8,81 +8,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BabaCare - Landing Page User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #F7F8FD;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar { 
+            width: 100px; 
+            min-height: 100vh; 
+            background: #fff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link { 
+            color: #95A5A6; 
+            font-size: 13px;
+            transition: all 0.3s ease;
+            padding: 15px 0;
+        }
+        .sidebar .nav-link:hover { 
+            color: #34495E;
+            transform: translateY(-2px);
+        }
+        .sidebar .nav-link i {
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover i {
+            transform: scale(1.1);
+        }
+        .profile-dropdown { 
+            min-width: 200px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .profile-dropdown .dropdown-item {
+            padding: 10px 20px;
+            transition: all 0.2s ease;
+        }
+        .profile-dropdown .dropdown-item:hover {
+            background-color: #F7F8FD;
+            padding-left: 25px;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #E74C3C;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+        }
+        .background-circle {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .contact-btn {
+            transition: all 0.3s ease;
+            border: 2px solid #34495E;
+            padding: 10px 30px;
+        }
+        .contact-btn:hover {
+            background-color: #34495E;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.8);
+            text-align: center;
+            font-size: 12px;
+            color: #95A5A6;
+        }
+    </style>
 </head>
-<body style="background-color: #F7F8FD; font-family: 'Roboto', sans-serif;">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top bg-white shadow-sm" style="min-height: 80px;">
-        <div class="container-fluid d-flex align-items-center">
-            <a class="navbar-brand py-2" href="/">
-                <img src="{{ asset('/storage/logo.png') }}" alt="Logo" width="118" height="49.11">
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column align-items-center py-4">
+            <img src="{{ asset('storage/logo.png') }}" alt="Logo" width="90" class="mb-5">
+            <a href="{{ route('appointments.create') }}" class="nav-link mb-4 text-center">
+                <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
+                <div>Pendaftaran</div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto d-flex align-items-center">
-                    <li class="nav-item me-4">
-                        <a class="nav-link position-relative d-flex align-items-center justify-content-center" href="#" style="height: 40px;">
-                            <img src="{{ asset('/storage/notifikasi.svg') }}" alt="Notifikasi" style="width: 30px; height: 30px;">
-                            <span class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center py-2" href="#">
-                            <img src="{{ asset('/storage/avatar.svg') }}" alt="Profile" style="width: 35px; height: 35px;">
-                            <span style="margin-left: 10px; font-size: 14px; color: #34495E;">Admin</span> 
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <a href="#" class="nav-link text-center">
+                <i class="fa-regular fa-comments fa-2x mb-2"></i>
+                <div>Feedback</div>
+            </a>
         </div>
-    </nav>
-
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-lg-2 col-md-12 p-0">
-                <nav class="bg-white shadow-sm p-3 d-flex flex-column" style="min-height: calc(100vh - 80px); overflow-y: auto; position: sticky; top: 80px;">
-                    <ul class="nav flex-column mt-3 w-100">
-                        <li class="nav-item mb-4">
-                            <a class="nav-link d-flex flex-column align-items-center text-center" href="{{ route('appointments.create') }}" style="color: #95A5A6;">
-                                <img src="{{ asset('/storage/pendaftaran.svg') }}" alt="Pendaftaran" class="mb-2" style="width: 35px; height: 35px;">
-                                <span style="font-size: 13px;">Pendaftaran</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-4">
-                            <a class="nav-link d-flex flex-column align-items-center text-center" href="#" style="color: #95A5A6;">
-                                <img src="{{ asset('/storage/feedback.svg') }}" alt="Feedback" class="mb-2" style="width: 35px; height: 35px;">
-                                <span style="font-size: 13px;">Feedback</span>
-                            </a>
+        <!-- Main Content -->
+        <div class="flex-grow-1 position-relative" style="min-height: 100vh;">
+            <!-- Profile & Notification -->
+            <div class="position-absolute top-0 end-0 p-4 d-flex align-items-center" style="z-index: 10;">
+                <a href="#" class="me-3 position-relative">
+                    <i class="fa-regular fa-bell fa-lg" style="color: #95A5A6;"></i>
+                    <span class="notification-badge">3</span>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user fa-lg" style="color: #34495E;"></i>
+                        <span class="ms-2" style="color: #34495E;">{{ Auth::user()->name ?? 'User' }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="{{ route('user.profile.edit') }}"><i class="fas fa-user me-2"></i>Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Keluar</button>
+                            </form>
                         </li>
                     </ul>
-                </nav>
+                </div>
             </div>
-
-            <!-- Main Content -->
-            <main class="col-lg-10 col-md-12 px-md-4 py-5 position-relative">
+            <div>
                 @hasSection('content')
                     @yield('content')
                 @else
+                <!-- Content -->
+                <div class="d-flex flex-column justify-content-center align-items-start h-100" style="padding: 100px 0 0 120px;">
+                    <h1 class="fw-bold" style="font-size: 48px;">Puskesmas<br>Babagan Tarogong</h1>
+                    <p class="text-muted mb-4" style="font-size: 16px;">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
+                    <button class="btn contact-btn" style="font-size: 16px;">Contact Us</button>
+                </div>
+                <!-- Background Circle -->
+                <div class="background-circle" style="position: absolute; right: 0; bottom: 0; z-index: 0;">
+                    <img src="{{ asset('storage/background_lingkaran.png') }}" alt="Illustration" style="max-width: 530px;">
+                </div>
+                <!-- Footer -->
+                <div class="footer">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-7 col-md-8 col-sm-12">
-                                <h1 class="fw-bold" style="font-size: 52px;">Puskesmas</h1>
-                                <h1 class="fw-bold mb-2" style="font-size: 52px;">Babagan Tarogong</h1>
-                                <p class="text-muted mb-5" style="font-size: 16px;">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
-                                <button class="btn btn-outline-dark" style="font-size: 16px;">Contact Us</button>
+                            <div class="col-md-4">
+                                <i class="fas fa-phone me-2"></i> (021) 123-4567
+                            </div>
+                            <div class="col-md-4">
+                                <i class="fas fa-envelope me-2"></i> info@babacare.com
+                            </div>
+                            <div class="col-md-4">
+                                <i class="fas fa-map-marker-alt me-2"></i> Jl. Babagan No. 123, Tarogong
                             </div>
                         </div>
                     </div>
-                    <div class="position-absolute bottom-0 end-0" style="z-index: -1;">
-                        <img src="{{ asset('/storage/background_lingkaran.png') }}" alt="Illustration" class="img-fluid" style="max-width: 530px;">
-                    </div>
+                </div>
                 @endif
-            </main>
+            </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap responsive adjustments -->
     <script>
