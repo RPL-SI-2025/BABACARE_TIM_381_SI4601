@@ -20,3 +20,8 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 // User Profile Routes
 Route::get('/user/profile/edit', [UserProfileController::class, 'edit'])->name('user.profile.edit');
 Route::put('/user/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/switch-user', [App\Http\Controllers\Auth\SwitchUserController::class, 'showSwitchForm'])->name('switch.user.form');
+    Route::post('/switch-user', [App\Http\Controllers\Auth\SwitchUserController::class, 'switchUser'])->name('switch.user');
+});
