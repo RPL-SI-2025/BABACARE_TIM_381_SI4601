@@ -12,7 +12,7 @@
     <div class="min-h-screen flex">
         <!-- Kolom Gambar -->
         <div class="w-1/2 hidden md:block">
-            <img src="{{ asset('storage/login_image.png') }}" alt="Puskesmas Babakan Tarogong" class="h-full w-full object-cover">
+            <img src="{{ asset('images/login_image.png') }}" alt="Puskesmas Babakan Tarogong" class="h-full w-full object-cover">
         </div>
 
         <!-- Kolom Form Login -->
