@@ -1,20 +1,13 @@
 @extends('landing_page_user')
 
 @section('title', 'Pendaftaran Pasien')
-@section('header', 'Pendaftaran Pasien')
 
 @section('content')
-<div class="bg-white rounded-lg shadow-sm p-6 max-w-5xl mx-auto">
-    @if(session('error'))
-    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <strong class="font-bold">Error!</strong>
-        <span class="block sm:inline">{{ session('error') }}</span>
-    </div>
-    @endif
+<div class="card shadow-sm p-4 mb-5 bg-white rounded">
 
     @if($errors->any())
-    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <ul class="list-disc list-inside">
+    <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
             @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
@@ -22,84 +15,76 @@
     </div>
     @endif
 
-    <form id="createAppointmentForm" action="{{ route('appointments.store') }}" method="POST" class="space-y-6">
+    <form id="createAppointmentForm" action="{{ route('appointments.store') }}" method="POST">
         @csrf
-        <div class="grid grid-cols-1 gap-y-4">
-
-            <div class="relative">
-                <label for="tanggal_reservasi" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Reservasi</label>
-                <input type="date" id="tanggal_reservasi" name="tanggal_reservasi" 
-                    value="{{ old('tanggal_reservasi', date('Y-m-d')) }}" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                @error('tanggal_reservasi')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="relative">
-                <label for="tanggal_pelaksanaan" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pelaksanaan</label>
-                <input type="date" id="tanggal_pelaksanaan" name="tanggal_pelaksanaan" 
-                    value="{{ old('tanggal_pelaksanaan') }}" 
-                    min="{{ date('Y-m-d') }}"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                @error('tanggal_pelaksanaan')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="relative">
-                <label for="waktu_pelaksanaan" class="block text-sm font-medium text-gray-700 mb-1">Waktu Pelaksanaan</label>
-                <input type="time" id="waktu_pelaksanaan" name="waktu_pelaksanaan" 
-                    value="{{ old('waktu_pelaksanaan') }}" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
-                @error('waktu_pelaksanaan')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="relative">
-                <label for="specialist" class="block text-sm font-medium text-gray-700 mb-1">Specialist</label>
-                <select id="specialist" name="specialist" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 appearance-none" required>
-                    <option value="">Pilih Spesialis</option>
-                    @foreach($specialists as $key => $value)
-                        <option value="{{ $key }}" {{ old('specialist') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                    @endforeach
-                </select>
-                <span class="absolute inset-y-0 right-0 flex items-center pr-3 pt-6">
-                    <i class="fas fa-chevron-down black"></i>
-                </span>
-                @error('specialist')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="keluhan_utama" class="block text-sm font-medium text-gray-700 mb-1">Keluhan Utama</label>
-                <textarea id="keluhan_utama" name="keluhan_utama" rows="5" 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>{{ old('keluhan_utama') }}</textarea>
-                @error('keluhan_utama')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
+        <div class="mb-3">
+            <label for="tanggal_reservasi" class="form-label">Tanggal Reservasi</label>
+            <input type="date" id="tanggal_reservasi" name="tanggal_reservasi"
+                   value="{{ old('tanggal_reservasi', date('Y-m-d')) }}"
+                   class="form-control" required>
+            @error('tanggal_reservasi')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div class="flex space-x-4 mt-6">
-            <button type="button" onclick="confirmSubmit()" 
-                    class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-md transition duration-200 ease-in-out text-center">
+        <div class="mb-3">
+            <label for="tanggal_pelaksanaan" class="form-label">Tanggal Pelaksanaan</label>
+            <input type="date" id="tanggal_pelaksanaan" name="tanggal_pelaksanaan"
+                   value="{{ old('tanggal_pelaksanaan') }}"
+                   min="{{ date('Y-m-d') }}"
+                   class="form-control" required>
+            @error('tanggal_pelaksanaan')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="waktu_pelaksanaan" class="form-label">Waktu Pelaksanaan</label>
+            <input type="time" id="waktu_pelaksanaan" name="waktu_pelaksanaan"
+                   value="{{ old('waktu_pelaksanaan') }}"
+                   class="form-control" required>
+            @error('waktu_pelaksanaan')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="specialist" class="form-label">Specialist</label>
+            <select id="specialist" name="specialist" class="form-select" required>
+                <option value="">Pilih Spesialis</option>
+                @foreach($specialists as $key => $value)
+                    <option value="{{ $key }}" {{ old('specialist') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                @endforeach
+            </select>
+            @error('specialist')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="keluhan_utama" class="form-label">Keluhan Utama</label>
+            <textarea id="keluhan_utama" name="keluhan_utama" rows="4"
+                      class="form-control" required>{{ old('keluhan_utama') }}</textarea>
+            @error('keluhan_utama')
+                <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="button" onclick="confirmSubmit()" class="btn btn-primary flex-fill">
                 Daftar
             </button>
-            <a href="{{ route('appointments.create') }}" 
-            class="flex-1 bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 py-3 px-4 rounded-md transition duration-200 ease-in-out text-center">
+            <a href="{{ route('user.landing') }}" class="btn btn-outline-secondary flex-fill">
                 Cancel
             </a>
         </div>
     </form>
-
 </div>
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.getElementById('tanggal_reservasi').addEventListener('change', function() {
         document.getElementById('tanggal_pelaksanaan').min = this.value;
@@ -109,7 +94,7 @@
             pelaksanaanInput.value = this.value;
         }
     });
-    
+
     function confirmSubmit() {
         Swal.fire({
             title: 'Konfirmasi Pendaftaran',
@@ -127,5 +112,23 @@
         });
     }
 
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'Oke'
+    });
+    @endif
+
+    @if(session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'Oke'
+    });
+    @endif
 </script>
 @endpush
+
