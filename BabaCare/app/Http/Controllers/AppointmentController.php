@@ -57,7 +57,7 @@ class AppointmentController extends Controller
             
 
             $appointment = new Appointment();
-            $appointment->user_id = Auth::id(); // Bukan $user
+            $appointment->user_id = Auth::id();
             $appointment->tanggal_reservasi = $validated['tanggal_reservasi'];
             $appointment->tanggal_pelaksanaan = $validated['tanggal_pelaksanaan'];
             $appointment->waktu_pelaksanaan = $validated['waktu_pelaksanaan'];
