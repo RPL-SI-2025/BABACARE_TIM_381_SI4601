@@ -41,6 +41,7 @@
             min-width: 200px;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 9999;
         }
         .profile-dropdown .dropdown-item {
             padding: 10px 20px;
@@ -105,16 +106,17 @@
                 <div>Feedback</div>
             </a>
         </div>
+
         <!-- Main Content -->
         <div class="flex-grow-1 position-relative" style="min-height: 100vh;">
             <!-- Profile & Notification -->
-            <div class="position-absolute top-0 end-0 p-4 d-flex align-items-center" style="z-index: 10;">
+            <div class="position-absolute top-0 end-0 p-4 d-flex align-items-center" style="z-index: 20;">
                 <a href="#" class="me-3 position-relative">
                     <i class="fa-regular fa-bell fa-lg" style="color: #95A5A6;"></i>
                     <span class="notification-badge">3</span>
                 </a>
                 <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" role="button" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user fa-lg" style="color: #34495E;"></i>
                         <span class="ms-2" style="color: #34495E;">{{ Auth::user()->name ?? 'User' }}</span>
                     </a>
@@ -131,6 +133,7 @@
                     </ul>
                 </div>
             </div>
+
             <div>
                 @hasSection('content')
                     @yield('content')
@@ -141,10 +144,12 @@
                     <p class="text-muted mb-4" style="font-size: 16px;">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
                     <button class="btn contact-btn" style="font-size: 16px;">Contact Us</button>
                 </div>
+
                 <!-- Background Circle -->
                 <div class="background-circle" style="position: absolute; right: 0; bottom: 0; z-index: 0;">
                     <img src="{{ asset('storage/background_lingkaran.png') }}" alt="Illustration" style="max-width: 530px;">
                 </div>
+
                 <!-- Footer -->
                 <div class="footer">
                     <div class="container">
@@ -165,41 +170,42 @@
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap Bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap responsive adjustments -->
+    <!-- Optional Script for Layout Adjustment -->
     <script>
-        // Adjust sidebar for mobile view
         function adjustLayout() {
             if (window.innerWidth < 992) {
-                // For mobile view
                 const sidebarNav = document.querySelector('.col-lg-2 nav');
-                sidebarNav.style.position = 'static';
-                sidebarNav.style.minHeight = 'auto';
-                
+                if (sidebarNav) {
+                    sidebarNav.style.position = 'static';
+                    sidebarNav.style.minHeight = 'auto';
+                }
                 const navList = document.querySelector('.nav.flex-column');
-                navList.classList.remove('flex-column');
-                navList.classList.add('flex-row');
-                navList.style.justifyContent = 'center';
-                
+                if (navList) {
+                    navList.classList.remove('flex-column');
+                    navList.classList.add('flex-row');
+                    navList.style.justifyContent = 'center';
+                }
                 const navItems = document.querySelectorAll('.nav-item');
                 navItems.forEach(item => {
                     item.style.marginRight = '20px';
                     item.style.marginBottom = '10px';
                 });
             } else {
-                // For desktop view
                 const sidebarNav = document.querySelector('.col-lg-2 nav');
-                sidebarNav.style.position = 'sticky';
-                sidebarNav.style.minHeight = 'calc(100vh - 80px)';
-                
+                if (sidebarNav) {
+                    sidebarNav.style.position = 'sticky';
+                    sidebarNav.style.minHeight = 'calc(100vh - 80px)';
+                }
                 const navList = document.querySelector('.nav');
-                if (!navList.classList.contains('navbar-nav')) { // Don't adjust the top navbar
+                if (navList && !navList.classList.contains('navbar-nav')) {
                     navList.classList.remove('flex-row');
                     navList.classList.add('flex-column');
                     navList.style.justifyContent = '';
                 }
-                
                 const navItems = document.querySelectorAll('.col-lg-2 .nav-item');
                 navItems.forEach(item => {
                     item.style.marginRight = '0';
@@ -208,11 +214,11 @@
             }
         }
 
-        // Run on page load and resize
         window.onload = adjustLayout;
         window.onresize = adjustLayout;
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     @stack('scripts')
 </body>
 </html>
