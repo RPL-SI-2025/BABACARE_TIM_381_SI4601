@@ -30,6 +30,7 @@ class User extends Authenticatable
         'visit_history',
         'disease_history',
         'allergy',
+        'role'
     ];
 
     /**
