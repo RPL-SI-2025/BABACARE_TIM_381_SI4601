@@ -5,6 +5,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AppointmentController;
 use App\Models\Patient;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\UserProfileController;
@@ -50,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 }); 
 
 // Resource route untuk pasien
+Route::resource('appointments', AppointmentController::class);
 Route::resource('patients', PatientController::class);
 
 // Rute laporan
