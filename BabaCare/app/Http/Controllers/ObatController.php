@@ -26,8 +26,8 @@ class ObatController extends Controller
         // Validasi input
         $request->validate([
             'nama_obat' => 'required|string|max:255',
-            'kategori' => 'required|string|max:255',
-            'golongan' => 'required|string|min:0',
+            'kategori' => ['required', 'regex:/^[A-Za-z\s]+$/'],
+            'golongan' => ['required', 'regex:/^[A-Za-z\s]+$/'],
         ]);
 
         // Membuat obat baru
