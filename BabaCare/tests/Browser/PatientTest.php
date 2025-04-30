@@ -129,8 +129,10 @@ class PatientTest extends DuskTestCase
                 ->type('nama_pasien', 'Update Nama')
                 ->select('penyakit', 'Demam')
                 ->select('obat', 'Paracetamol')
-                ->press('Update') // Sesuaikan nama tombol submit
-                ->press('Ya, Ubah!') // Sesuaikan nama tombol submit
+                ->press('Update')
+                ->waitFor('.swal2-confirm', 10)
+                ->click('.swal2-confirm')
+                ->waitForLocation("/patients/{$patient->id}", 10)
                 ->assertPathIs("/patients/{$patient->id}");
 
             $this->assertDatabaseHas('patients', ['nama_pasien' => 'Update Nama']);
@@ -150,14 +152,14 @@ class PatientTest extends DuskTestCase
             $this->createUserAndLogin($browser);
 
             $browser->visit('/patients')
-                ->press("@delete-button-{$patient->id}")
-                ->pause(500)
-                ->waitFor('.swal2-confirm', 5)
-                ->press('Ya, Hapus!')
-                ->pause(2000)
-                ->assertDontSee($patient->nama_pasien);
+                ->press("@delete-button-{$patient->id}")   // Klik tombol delete
+                ->pause(500)                               // Tunggu modal muncul
+                ->waitFor('.swal2-confirm', 5)              // Tunggu tombol konfirmasi muncul
+                ->press('Ya, Hapus!')                  // Klik tombol konfirmasi
+                ->pause(2000)                              // Tunggu beberapa detik setelah submit
+                ->assertDontSee($patient->nama_pasien);    // Pastikan pasien sudah tidak terlihat
 
-            $this->assertDatabaseMissing('patients', ['id' => $patient->id]); 
+            $this->assertDatabaseMissing('patients', ['id' => $patient->id]); // Pastikan pasien sudah terhapus
         });
     }
 }

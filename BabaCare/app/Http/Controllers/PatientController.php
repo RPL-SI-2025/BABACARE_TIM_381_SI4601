@@ -148,7 +148,7 @@ class PatientController extends Controller
 
             $patient->update($validated);
 
-            return redirect()->route('patients.show', $patient->id)
+            return redirect("/patients/{$patient->id}")
                 ->with('success', 'Data pasien berhasil diperbarui.');
 
         } catch (ValidationException $e) {
