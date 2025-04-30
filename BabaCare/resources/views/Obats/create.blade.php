@@ -20,12 +20,18 @@
             <label for="kategori" class="block mb-2 text-sm font-semibold text-gray-700">Kategori</label>
             <input type="text" name="kategori" id="kategori" required
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            @error('kategori')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
         </div>
 
         <div>
             <label for="golongan" class="block mb-2 text-sm font-semibold text-gray-700">Golongan</label>
             <input type="text" name="golongan" id="golongan" required
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            @error('golongan')  
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="flex justify-end space-x-4 pt-4">

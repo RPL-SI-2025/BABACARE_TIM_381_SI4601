@@ -35,6 +35,9 @@ class ObatController extends Controller
             'nama_obat' => $request->nama_obat,
             'kategori' => $request->kategori,
             'golongan' => $request->golongan,
+        ],[
+            'kategori.regex' => 'Kategori hanya boleh berupa huruf.',
+            'golongan.regex' => 'Golongan hanya boleh berupa huruf.',
         ]);
 
         
