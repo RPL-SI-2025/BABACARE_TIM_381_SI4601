@@ -28,7 +28,7 @@
             <!-- Nama Pasien -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nama Pasien</label>
-                <input type="text" name="nama_pasien" value="{{ old('nama_pasien') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama_pasien') border-red-300 @enderror" required>
+                <input dusk="nama_pasien" type="text" name="nama_pasien" value="{{ old('nama_pasien') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama_pasien') border-red-300 @enderror" required>
                 @error('nama_pasien')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -37,7 +37,7 @@
             <!-- Gender -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Gender</label>
-                <select name="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('gender') border-red-300 @enderror" required>
+                <select dusk="gender" name="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('gender') border-red-300 @enderror" required>
                     <option value="">Pilih Gender</option>
                     <option value="Laki-laki" {{ old('gender') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                     <option value="Perempuan" {{ old('gender') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
@@ -50,7 +50,7 @@
             <!-- NIK -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">NIK</label>
-                <input type="text" name="nik" value="{{ old('nik') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nik') border-red-300 @enderror" required>
+                <input dusk="nik" type="text" name="nik" value="{{ old('nik') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nik') border-red-300 @enderror" required>
                 @error('nik')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -59,7 +59,7 @@
             <!-- Tanggal Lahir -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_lahir') border-red-300 @enderror" required>
+                <input dusk="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_lahir') border-red-300 @enderror" required>
                 @error('tanggal_lahir')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -68,7 +68,7 @@
             <!-- Jenis Perawatan -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Jenis Perawatan</label>
-                <select name="jenis_perawatan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('jenis_perawatan') border-red-300 @enderror" required>
+                <select dusk="jenis_perawatan" name="jenis_perawatan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('jenis_perawatan') border-red-300 @enderror" required>
                     <option value="">Pilih Jenis Perawatan</option>
                     <option value="Rawat Inap" {{ old('jenis_perawatan') == 'Rawat Inap' ? 'selected' : '' }}>Rawat Inap</option>
                     <option value="Rawat Jalan" {{ old('jenis_perawatan') == 'Rawat Jalan' ? 'selected' : '' }}>Rawat Jalan</option>
@@ -82,7 +82,7 @@
             <!-- Waktu Periksa -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Waktu Periksa</label>
-                <input type="datetime-local" name="waktu_periksa" value="{{ old('waktu_periksa') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('waktu_periksa') border-red-300 @enderror" required>
+                <input dusk="waktu_periksa" type="datetime-local" name="waktu_periksa" value="{{ old('waktu_periksa') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('waktu_periksa') border-red-300 @enderror" required>
                 @error('waktu_periksa')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -91,7 +91,7 @@
             <!-- Penyakit -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Penyakit</label>
-                <select name="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror" required>
+                <select dusk="penyakit" name="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror" required>
                     <option value="">Pilih Penyakit</option>
                     <option value="Demam" {{ old('penyakit') == 'Demam' ? 'selected' : '' }}>Demam</option>
                     <option value="Flu" {{ old('penyakit') == 'Flu' ? 'selected' : '' }}>Flu</option>
@@ -107,7 +107,7 @@
             <!-- Obat -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Obat</label>
-                <select name="obat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('obat') border-red-300 @enderror" required>
+                <select dusk="obat" name="obat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('obat') border-red-300 @enderror" required>
                     <option value="">Pilih Obat</option>
                     <option value="Paracetamol" {{ old('obat') == 'Paracetamol' ? 'selected' : '' }}>Paracetamol</option>
                     <option value="Amoxicillin" {{ old('obat') == 'Amoxicillin' ? 'selected' : '' }}>Amoxicillin</option>
@@ -123,14 +123,14 @@
         <!-- Hasil Pemeriksaan -->
         <div>
             <label class="block text-sm font-medium text-gray-700">Hasil Pemeriksaan</label>
-            <textarea name="hasil_pemeriksaan" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('hasil_pemeriksaan') border-red-300 @enderror" required>{{ old('hasil_pemeriksaan') }}</textarea>
+            <textarea dusk="hasil_pemeriksaan" name="hasil_pemeriksaan" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('hasil_pemeriksaan') border-red-300 @enderror" required>{{ old('hasil_pemeriksaan') }}</textarea>
             @error('hasil_pemeriksaan')
             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="flex justify-start space-x-4">
-            <button type="button" onclick="confirmSubmit()" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button dusk="submit-button" type="button" onclick="confirmSubmit()" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                 Save
             </button>
             <a href="{{ route('patients.index') }}" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">

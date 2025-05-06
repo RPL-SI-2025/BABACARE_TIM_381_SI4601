@@ -1,109 +1,103 @@
-@extends('layouts.app')
+@extends('layouts.Admin')
 
-@section('title', 'Daftar Obat')
-@section('header', 'Data Obat')
+@section('title', 'Manajemen Obat')
+
+@section('header', 'Manajemen Obat')
 
 @section('content')
-<div class="space-y-6">
-    <div class="flex justify-between items-center">
-        <div class="flex space-x-4">
-            <a href="{{ route('obats.create') }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                <i class="fas fa-plus mr-2"></i> Tambah Obat
-            </a>
+<div class="bg-white rounded-2xl shadow-lg p-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 space-y-4 md:space-y-0">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800">Data Obat</h2>
+            <p class="text-gray-500 text-sm">Kelola data obat di sistem BabaCare</p>
         </div>
-        <div class="flex items-center space-x-4">
-            <div class="relative">
-                <input type="text" id="search" placeholder="Cari obat..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            </div>
+        <div class="relative">
+            <input 
+                type="text" 
+                id="search" 
+                placeholder="Cari nama obat..." 
+                class="w-72 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            >
+            <i class="fas fa-search absolute right-4 top-2.5 text-gray-400"></i>
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+    <div class="overflow-x-auto rounded-lg">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Obat</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Golongan</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
-                    
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                    <th class="py-3 px-6 text-left">ID</th>
+                    <th class="py-3 px-6 text-left">Nama Obat</th>
+                    <th class="py-3 px-6 text-left">Golongan</th>
+                    <th class="py-3 px-6 text-left">Kategori</th>
+                    <th class="py-3 px-6 text-center">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
+            <tbody class="text-gray-700 text-sm">
                 @forelse($obats as $obat)
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $obat->nama_obat }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $obat->golongan }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">{{ $obat->kategori }}</td>
-                    
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('obats.edit', $obat) }}" class="text-blue-600 hover:text-blue-900">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form id="deleteForm-{{ $obat->id }}" action="{{ route('obats.destroy', $obat) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" onclick="confirmDelete({{ $obat->id }}, '{{ $obat->nama }}')" class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                            <a href="{{ route('obats.show', $obat) }}" class="text-green-600 hover:text-green-900">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="border-b hover:bg-gray-50 transition duration-200">
+                        <td class="py-4 px-6">{{ $obat->id }}</td>
+                        <td class="py-4 px-6">{{ $obat->nama_obat }}</td>
+                        <td class="py-4 px-6">{{ $obat->golongan }}</td>
+                        <td class="py-4 px-6">{{ $obat->kategori }}</td>
+                        <td class="py-4 px-6 text-center">
+                            <div class="flex justify-center items-center space-x-4">
+                                <a href="{{ route('obats.show', $obat) }}" class="text-green-500 hover:text-green-700">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('obats.edit', $obat) }}" class="text-blue-500 hover:text-blue-700">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form id="deleteForm-{{ $obat->id }}" action="{{ route('obats.destroy', $obat) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" onclick="confirmDelete({{ $obat->id }}, '{{ $obat->nama_obat }}')" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 @empty
-                <tr>
-                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                        Tidak ada data obat
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="5" class="text-center py-6 text-gray-500">Data Obat Kosong/Tidak Ada Data Obat.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 
-    
+    <!-- Floating Button -->
+    <a href="{{ route('obats.create') }}" 
+       class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition duration-300">
+        <i class="fas fa-plus text-xl"></i>
+    </a>
 </div>
 @endsection
 
 @push('scripts')
 <script>
+    function confirmDelete(id, nama) {
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: `Data obat "${nama}" akan dihapus permanen.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e3342f',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById(`deleteForm-${id}`).submit();
+            }
+        });
+    }
+
     document.getElementById('search').addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
             window.location.href = '{{ route("obats.index") }}?search=' + this.value;
         }
     });
-
-    function confirmDelete(obatId, obatName) {
-        Swal.fire({
-            title: 'Konfirmasi Penghapusan Data',
-            text: `Apakah Anda yakin ingin menghapus data obat "${obatName}"?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById(`deleteForm-${obatId}`).submit();
-            }
-        });
-    }
-
-    // Show success message if exists
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: "{{ session('success') }}",
-            timer: 3000,
-            showConfirmButton: false
-        });
-    @endif
 </script>
 @endpush

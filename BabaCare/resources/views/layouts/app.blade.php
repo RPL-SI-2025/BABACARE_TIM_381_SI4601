@@ -34,13 +34,6 @@
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('patients.*') ? 'bg-gray-100' : '' }}">
                         <i class="fas fa-user w-5 h-5 mr-2"></i>
                         <span>Management Pasien</span>
-                        
-                    <a href="{{ route('obats.index') }}" 
-                       class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('obats.*') ? 'bg-gray-100' : '' }}">
-                        <i class="fas fa-capsules w-5 h-5 mr-2"></i>
-                        <span>Manajemen Obat</span>
-</a>
-
                     </a>
                     <a href="{{ route('reports.index') }}" 
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-gray-100' : '' }}">
@@ -61,9 +54,26 @@
                         <button class="text-gray-500 hover:text-gray-600">
                             <i class="fas fa-bell text-xl"></i>
                         </button>
-                        <div class="flex items-center space-x-2">
-                            <img src="https://ui-avatars.com/api/?name=Dokter&background=0D8ABC&color=fff" alt="Profile" class="w-8 h-8 rounded-full">
-                            <span class="text-gray-700">Dokter</span>
+                        <div class="relative">
+                            <button id="dropdownUserButton" class="flex items-center focus:outline-none">
+                                <i class="fas fa-user text-xl mr-2"></i>
+                                <span class="text-gray-700">{{ Auth::user()->name ?? 'User' }}</span>
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div id="dropdownUserMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
+                                <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-2"></i> Pengaturan
+                                </a>
+                                <div class="border-t my-1"></div>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="flex items-center w-full px-4 py-2 text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,5 +111,19 @@
     </div>
 
     @stack('scripts')
+    <script>
+        // Script untuk toggle dropdown
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('dropdownUserButton');
+            const menu = document.getElementById('dropdownUserMenu');
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+            document.addEventListener('click', function () {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

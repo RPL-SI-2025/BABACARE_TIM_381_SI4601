@@ -2,55 +2,73 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
 
 class HomepageTest extends TestCase
 {
     /**
-     * Test apakah homepage dapat diakses.
-     *
-     * @return void
+     * Test apakah admin bisa mengakses homepage admin.
      */
-    public function testHomePageLoadsSuccessfully()
+    public function testAdminCanAccessAdminHomepage()
     {
-        $response = $this->get('/'); // Mengakses landingpage
+        $admin = User::factory()->create();
+        $this->actingAs($admin);
 
-        // Memastikan status code 200 (OK)
+        $response = $this->get('/admin');
+
         $response->assertStatus(200);
+        $response->assertSee('Puskesmas');
         
-        // Memastikan halaman memiliki teks tertentu
-        $response->assertSee('Selamat Datang di BabaCare'); 
+        $response->assertSeeText('Dashboard');
+        $response->assertSeeText('Tenaga Medis');
+        $response->assertSeeText('Data Obat');
+        $response->assertSeeText('Manajemen Data Obat');
     }
 
     /**
-     * Test apakah navbar links berfungsi.
-     *
-     * @return void
+     * Test apakah petugas bisa mengakses homepage admin.
      */
-    public function testNavbarLinks()
+    public function testPetugasCanAccessAdminHomepage()
     {
-        // Mengakses homepage dan menguji link pada navbar
-        $response = $this->get('/'); // Mengakses landingpage
+        $petugas = User::factory()->create();
+        $this->actingAs($petugas);
 
-        // Memastikan teks yang ada pada navbar terlihat
+        $response = $this->get('/petugas');
+
+        $response->assertStatus(200);
+        $response->assertSee('Selamat Datang di BabaCare');
+        
         $response->assertSeeText('Dashboard');
         $response->assertSeeText('Management Pasien');
         $response->assertSeeText('Laporan Data Pasien');
     }
 
     /**
-     * Test apakah gambar di homepage berhasil dimuat.
-     *
-     * @return void
+     * Test apakah user biasa tidak bisa mengakses homepage admin.
+     */
+    public function testUserCannotAccessAdminHomepage()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->get('/user');
+
+        // Misal user biasa diarahkan ke /home atau error 403
+        $response->assertStatus(200);
+        $response->assertSee('Puskesmas');
+
+        $response->assertSeeText('Pendaftaran');
+        $response->assertSeeText('Feedback');
+    }
+
+    /**
+     * Test apakah gambar di homepage (landing page) berhasil dimuat.
      */
     public function testHomepageImages()
     {
-        $response = $this->get('/'); // Mengakses landingpage
+        $response = $this->get('/');
 
-        // Memastikan gambar ada di halaman
-        $response->assertSee('<img', false); // Menggunakan assertSee untuk memastikan tag <img> ada
+        $response->assertSee('<img', false);
     }
 }
-?>
