@@ -59,4 +59,7 @@ Route::get('/reports', [ReportController::class, 'index'])->name('reports.index'
 
 Route::resource('obats', ObatController::class);
 
+Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.form');
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
 
