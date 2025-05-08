@@ -104,7 +104,7 @@
                 Puas
             </label>
             <label>
-                <input class="form-check-input" type="radio" name="satisfaction" value="kurang_puas" {{ old('satisfaction') == 'kurang_puas' ? 'checked' : '' }}>
+                <input class="form-check-input" type="radio" name="satisfaction" value="tidak_puas" {{ old('satisfaction') == 'tidak_puas' ? 'checked' : '' }}>
                 Kurang Puas
             </label>
         </div>
