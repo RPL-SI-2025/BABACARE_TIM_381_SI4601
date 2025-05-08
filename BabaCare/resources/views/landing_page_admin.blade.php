@@ -1,74 +1,92 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BabaCare - Landing Page Petugass</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</head> 
-<body style="background-color: #F7F8FD;">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="position-absolute top-0 start-0 p-5">
-                <a class="navbar-brand" href="#">
-                    <img src="storage/logo.png" alt="Logo" width="118" height="49.11">
-                </a>
-            </div>
-            <nav class="col-auto bg-white shadow-sm p-3 d-flex flex-column justify-content-start position-fixed" style="height: 85vh; top: 15vh; width: 12.5%; overflow-y: auto; font-family: 'Roboto', sans-serif; min-height: 100vh;">
-                <ul class="nav flex-column mt-5 w-100">
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/dashboard.svg" alt="Dashboard" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/tenaga_medis.svg" alt="TenagaMedis" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px">Tenaga Medis</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/obat.svg" alt="Obat" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px;">Data Obat</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mb-4">
-                        <a class="nav-link text-dark d-flex flex-column align-items-center text-center" href="#">
-                            <img src="storage/manajemen_data.svg" alt="ManajemenObat" class="mb-2" style="width: 30px; height: 30px;">
-                            <span style="color: #95A5A6; font-size: 13px;">Manajemen Data</span>
-                            <span style="color: #95A5A6; font-size: 13px;">Obat</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div class="top-right-icons position-fixed d-flex align-items-center" style="top: 20px; left: 1300px; gap: 50px; z-index: 9999;">
-                <a class="position-relative" href="#">
-                    <img src="storage/notifikasi.svg" alt="Notifikasi" style="width: 40px; height: 35px;">
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-danger">3</span>
-                </a>
-                <a class="position-relative" href="#" style="text-decoration: none;">
-                    <img src="storage/avatar.svg" alt="Profile" style="width: 40px; height: 40px;">
-                    <span style="margin-left: 10px; font-size: 14px; color: #34495E;">Admin</span> 
-                </a>
-            </div>
-            <main class="col-md-9 ms-auto col-lg-10 px-md-4 d-flex flex-column justify-content-center align-items-start py-5 position-relative pe-5" style="font-family: 'Roboto', sans-serif; min-height: 100vh;">
-                <div class="ms-5 ps-5">
-                    <h1 class="fw-bold" style="font-size: 52px">Puskesmas</h1>
-                    <h1 class="fw-bold mb-2" style="font-size: 52px">Babagan Tarogong</h1>
-                    <p class="text-muted mb-5" style="font-size: 16px">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
-                    <button class="btn btn-outline-dark" style="font-size: 16px">Contact Us</button>
-                </div>
-                <div class="position-absolute bottom-0 end-0" style="z-index: -1;">
-                    <img src="storage/background_lingkaran.png" alt="Illustration" class="img-fluid" style="max-width: 530px;">
-                </div>
-            </main>
+    <title>BabaCare - Landing Page Admin @yield('title')</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div class="w-56 bg-white flex flex-col items-center py-8 shadow-md relative">
+        <!-- Logo -->
+        <div class="absolute top-5 left-5">
+            <a href="#">
+                <img src="{{ asset('storage/logo.png') }}" alt="BabaCare" class="h-10">
+            </a>
         </div>
+
+        <!-- Navigation -->
+        <nav class="flex flex-col space-y-8 mt-28">
+            <a href="#"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <img src="{{ asset('storage/dashboard.svg') }}" alt="Dashboard" class="w-8 h-8 mb-2">
+                <span class="text-xs text-gray-500">Dashboard</span>
+            </a>
+
+            <a href="#"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <img src="{{ asset('storage/tenaga_medis.svg') }}" alt="Tenaga Medis" class="w-8 h-8 mb-2">
+                <span class="text-xs text-gray-500">Tenaga Medis</span>
+            </a>
+
+            <a href="#"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <img src="{{ asset('storage/obat.svg') }}" alt="Data Obat" class="w-8 h-8 mb-2">
+                <span class="text-xs text-gray-500">Data Obat</span>
+            </a>
+
+            <a href="/obats"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <img src="{{ asset('storage/manajemen_data.svg') }}" alt="Manajemen Data Obat" class="w-8 h-8 mb-2">
+                <span class="text-xs text-gray-500">Manajemen Data Obat</span>
+            </a>
+        </nav>
     </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <header class="flex items-center justify-end bg-white shadow px-6 py-8 relative">
+            <!-- Top right icons -->
+            <div class="flex items-center space-x-8 absolute right-10 top-4">
+                <a href="#" class="relative">
+                    <img src="{{ asset('storage/notifikasi.svg') }}" alt="Notifikasi" class="w-8 h-8">
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3">
+                    <img src="{{ asset('storage/avatar.svg') }}" alt="Profile" class="w-8 h-8 rounded-full">
+                    <span class="text-gray-700 text-sm font-semibold">Admin</span>
+                </a>
+            </div>
+        </header>
+        <!-- Page Content -->
+        <main class="relative flex flex-col justify-center items-center" style="font-family: 'Roboto', sans-serif; min-height: 100vh; position: relative;">
+            <!-- Teks tengah -->
+            <div class="ms-5 ps-5">
+                <h1 class="fw-bold" style="font-size: 52px;">Puskesmas</h1>
+                <h1 class="fw-bold mb-2" style="font-size: 52px;">Babakan Tarogong</h1>
+                <p class="text-muted mb-5" style="font-size: 16px;">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
+                <button class="btn btn-outline-dark" style="font-size: 16px;">Contact Us</button>
+            </div>
+
+            <!-- Gambar kanan bawah -->
+            <img src="{{ asset('storage/background_lingkaran.png') }}" alt="Illustration"
+                class="absolute bottom-0 right-0" style="max-width: 530px; z-index: 0;">
+        </main>
+
+    </div>
+
+@stack('scripts')
 </body>
 </html>

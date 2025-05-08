@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\Appointment;
+use App\Models\Obat;
+use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -13,7 +16,7 @@ class PatientController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Patient::query();
+        $query = Patient::with(['pengguna', 'appointment', 'obat']);
 
         if ($request->has('search')) {
             $search = $request->get('search');
@@ -30,7 +33,11 @@ class PatientController extends Controller
      */
     public function create()
     {
-        return view('patients.create');
+        $appointments = Appointment::whereDoesntHave('patient')
+            ->with('pengguna')
+            ->get();
+        $obats = Obat::all();
+        return view('patients.create', compact('appointments', 'obats'));
     }
 
     /**
@@ -52,41 +59,44 @@ class PatientController extends Controller
             $attributes = [
                 'nama_pasien' => 'Nama pasien',
                 'nik' => 'NIK',
-                'gender' => 'Gender',
-                'tanggal_lahir' => 'Tanggal lahir',
-                'jenis_perawatan' => 'Jenis perawatan',
-                'waktu_periksa' => 'Waktu periksa',
-                'penyakit' => 'Penyakit',
-                'obat' => 'Obat',
+                'address' => 'Alamat',
+                'allergy' => 'Alergi',
+                'obat_id' => 'Obat',
                 'hasil_pemeriksaan' => 'Hasil pemeriksaan'
             ];
 
             $validated = $request->validate([
                 'nama_pasien' => 'required|string|max:255',
-                'nik' => 'required|string|unique:patients,nik|max:16',
-                'gender' => 'required|in:Laki-laki,Perempuan',
-                'tanggal_lahir' => 'required|date',
-                'jenis_perawatan' => 'required|string|max:255',
-                'waktu_periksa' => 'required|date',
+                'nik' => 'required|string|max:16|unique:patients,nik',
+                'address' => 'required|string',
+                'allergy' => 'nullable|string',
+                'obat_id' => 'required|exists:obats,id',
+                'hasil_pemeriksaan' => 'required|string',
+                'appointment_id' => 'required|exists:appointments,id',
                 'penyakit' => 'required|string|max:255',
-                'obat' => 'required|string|max:255',
-                'hasil_pemeriksaan' => 'required|string'
             ], $messages, $attributes);
+
+            $appointment = Appointment::with('pengguna')->findOrFail($request->appointment_id);
+            $validated['pengguna_id'] = $appointment->pengguna_id;
+            $validated['tanggal_lahir'] = $appointment->pengguna->birth_date;
+            $validated['gender'] = $appointment->pengguna->gender;
+            $validated['keluhan'] = $appointment->keluhan_utama;
+            $validated['tanggal_reservasi'] = $appointment->tanggal_reservasi;
+            $validated['tanggal_pelaksanaan'] = $appointment->tanggal_pelaksanaan;
+            $validated['jenis_perawatan'] = $appointment->jenis_perawatan ?? 'Rawat Jalan';
+            $validated['penyakit'] = $request->penyakit;
+
+            // Tambahkan default value untuk field yang tidak ada di form
+            $validated['waktu_periksa'] = now(); // atau null jika nullable
 
             Patient::create($validated);
 
             return redirect()->route('patients.index')
-                ->with('success', 'Data pasien berhasil ditambahkan.');
-                
+                ->with('success', 'Data medical record berhasil ditambahkan.');
         } catch (ValidationException $e) {
-            return back()
-                ->withErrors($e->errors())
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan validasi data.');
+            return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan saat menyimpan data.');
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -95,6 +105,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
+        $patient->load(['pengguna', 'appointment', 'obat']);
         return view('patients.show', compact('patient'));
     }
 
@@ -103,7 +114,9 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        return view('patients.edit', compact('patient'));
+        $appointments = Appointment::with('pengguna')->get();
+        $obats = Obat::all();
+        return view('patients.edit', compact('patient', 'appointments', 'obats'));
     }
 
     /**
@@ -119,47 +132,47 @@ class PatientController extends Controller
                 'date' => ':attribute harus berupa tanggal yang valid.',
                 'in' => ':attribute yang dipilih tidak valid.',
                 'unique' => ':attribute sudah terdaftar dalam sistem.',
-                'nik.unique' => 'NIK sudah terdaftar untuk pasien lain. Mohon periksa kembali NIK yang dimasukkan.'
+                'nik.unique' => 'NIK sudah terdaftar dalam sistem. Mohon periksa kembali NIK yang dimasukkan.'
             ];
 
             $attributes = [
                 'nama_pasien' => 'Nama pasien',
                 'nik' => 'NIK',
-                'gender' => 'Gender',
-                'tanggal_lahir' => 'Tanggal lahir',
-                'jenis_perawatan' => 'Jenis perawatan',
-                'waktu_periksa' => 'Waktu periksa',
-                'penyakit' => 'Penyakit',
-                'obat' => 'Obat',
+                'address' => 'Alamat',
+                'allergy' => 'Alergi',
+                'obat_id' => 'Obat',
                 'hasil_pemeriksaan' => 'Hasil pemeriksaan'
             ];
 
             $validated = $request->validate([
                 'nama_pasien' => 'required|string|max:255',
                 'nik' => 'required|string|max:16|unique:patients,nik,' . $patient->id,
-                'gender' => 'required|in:Laki-laki,Perempuan',
-                'tanggal_lahir' => 'required|date',
-                'jenis_perawatan' => 'required|string|max:255',
-                'waktu_periksa' => 'required|date',
+                'address' => 'required|string',
+                'allergy' => 'nullable|string',
+                'obat_id' => 'required|exists:obats,id',
+                'hasil_pemeriksaan' => 'required|string',
+                'appointment_id' => 'required|exists:appointments,id',
                 'penyakit' => 'required|string|max:255',
-                'obat' => 'required|string|max:255',
-                'hasil_pemeriksaan' => 'required|string'
             ], $messages, $attributes);
+
+            $appointment = Appointment::with('pengguna')->findOrFail($request->appointment_id);
+            $validated['pengguna_id'] = $appointment->pengguna_id;
+            $validated['tanggal_lahir'] = $appointment->pengguna->birth_date;
+            $validated['gender'] = $appointment->pengguna->gender;
+            $validated['keluhan'] = $appointment->keluhan_utama;
+            $validated['tanggal_reservasi'] = $appointment->tanggal_reservasi;
+            $validated['tanggal_pelaksanaan'] = $appointment->tanggal_pelaksanaan;
+            $validated['jenis_perawatan'] = $appointment->jenis_perawatan ?? 'Rawat Jalan';
+            $validated['penyakit'] = $request->penyakit;
 
             $patient->update($validated);
 
-            return redirect()->route('patients.show', $patient)
-                ->with('success', 'Data pasien berhasil diperbarui.');
-
+            return redirect()->route('patients.index')
+                ->with('success', 'Data medical record berhasil diperbarui.');
         } catch (ValidationException $e) {
-            return back()
-                ->withErrors($e->errors())
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan validasi data.');
+            return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            return back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan saat memperbarui data.');
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -168,12 +181,8 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        try {
-            $patient->delete();
-            return redirect()->route('patients.index')
-                ->with('success', 'Data pasien berhasil dihapus.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat menghapus data.');
-        }
+        $patient->delete();
+        return redirect()->route('patients.index')
+            ->with('success', 'Data medical record berhasil dihapus.');
     }
 }

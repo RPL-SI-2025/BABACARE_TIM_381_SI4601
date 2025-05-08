@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Pengguna;
+use App\Models\Obat;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,43 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Create admin user
+        Pengguna::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin'
         ]);
+
+        // Create test patient
+        Pengguna::create([
+            'name' => 'Test Patient',
+            'email' => 'patient@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'user'
+        ]);
+
+        // Create some test medications
+        $obats = [
+            [
+                'nama_obat' => 'Paracetamol',
+                'deskripsi' => 'Obat untuk menurunkan demam dan meredakan nyeri',
+                'stok' => 100
+            ],
+            [
+                'nama_obat' => 'Amoxicillin',
+                'deskripsi' => 'Antibiotik untuk infeksi bakteri',
+                'stok' => 50
+            ],
+            [
+                'nama_obat' => 'Ibuprofen',
+                'deskripsi' => 'Anti inflamasi non steroid',
+                'stok' => 75
+            ]
+        ];
+
+        foreach ($obats as $obat) {
+            Obat::create($obat);
+        }
     }
 }

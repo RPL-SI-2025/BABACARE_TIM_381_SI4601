@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Pasien')
-@section('header', 'Detail Pasien')
+@section('title', 'Detail Medical Record')
+@section('header', 'Detail Medical Record')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex justify-between items-center">
         <a href="{{ route('patients.index') }}" class="flex items-center text-blue-500 hover:text-blue-700">
             <i class="fas fa-arrow-left mr-2"></i>
-            Kembali ke Daftar Pasien
+            Kembali ke Daftar Medical Record
         </a>
         <div class="flex space-x-2">
             <a href="{{ route('patients.edit', $patient) }}" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
@@ -37,7 +37,15 @@
                     </div>
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Tanggal Lahir</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->tanggal_lahir->format('d/m/Y') }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->tanggal_lahir ? $patient->tanggal_lahir->format('d/m/Y') : '-' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Alamat</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->address }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Alergi</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->allergy ?? '-' }}</dd>
                     </div>
                 </dl>
             </div>
@@ -46,12 +54,24 @@
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Informasi Pemeriksaan</h3>
                 <dl class="space-y-4">
                     <div>
+                        <dt class="text-sm font-medium text-gray-500">Tanggal Reservasi</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->tanggal_reservasi ? $patient->tanggal_reservasi->format('d/m/Y') : '-' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Tanggal Pelaksanaan</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->tanggal_pelaksanaan ? $patient->tanggal_pelaksanaan->format('d/m/Y') : '-' }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Keluhan</dt>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->keluhan }}</dd>
+                    </div>
+                    <div>
                         <dt class="text-sm font-medium text-gray-500">Jenis Perawatan</dt>
                         <dd class="mt-1 text-sm text-gray-900">{{ $patient->jenis_perawatan }}</dd>
                     </div>
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Waktu Periksa</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->waktu_periksa->format('d/m/Y H:i') }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->waktu_periksa ? $patient->waktu_periksa->format('d/m/Y H:i') : '-' }}</dd>
                     </div>
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Penyakit</dt>
@@ -59,7 +79,7 @@
                     </div>
                     <div>
                         <dt class="text-sm font-medium text-gray-500">Obat</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->obat }}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $patient->obat ? $patient->obat->nama_obat : '-' }}</dd>
                     </div>
                 </dl>
             </div>
