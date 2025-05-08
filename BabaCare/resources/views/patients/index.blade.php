@@ -53,7 +53,7 @@
                             <form id="deleteForm-{{ $patient->id }}" action="{{ route('patients.destroy', $patient) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="confirmDelete({{ $patient->id }}, '{{ $patient->nama_pasien }}')" class="text-red-600 hover:text-red-900">
+                                <button type="button" dusk="delete-button-{{ $patient->id }}" onclick="confirmDelete({{ $patient->id }}, '{{ $patient->nama_pasien }}')" class="text-red-600 hover:text-red-900">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
