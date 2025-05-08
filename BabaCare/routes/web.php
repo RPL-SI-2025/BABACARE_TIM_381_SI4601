@@ -9,6 +9,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Models\Patient;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\FeedbackController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
