@@ -15,8 +15,12 @@ class Obat extends Model
     // Tentukan kolom yang bisa diisi (fillable)
     protected $fillable = [
         'nama_obat',
-        'kategori',
-        'golongan',   
+        'deskripsi',
+        'stok'
     ];
 
+    public function patients()
+    {
+        return $this->hasMany(Patient::class);
+    }
 }

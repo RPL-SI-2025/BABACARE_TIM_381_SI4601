@@ -25,7 +25,9 @@ class pengguna extends Authenticatable
         'address',
         'visit_history',
         'disease_history',
-        'allergy'
+        'allergy',
+        'nik',
+        'gender'
     ];
 
     protected $hidden = [

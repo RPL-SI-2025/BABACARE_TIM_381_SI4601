@@ -57,6 +57,8 @@ Route::resource('patients', PatientController::class);
 
 // Rute laporan
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
+Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.exportPdf');
 
 Route::resource('obats', ObatController::class);
 

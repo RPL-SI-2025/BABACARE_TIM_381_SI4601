@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('visit_history')->nullable();
             $table->text('disease_history')->nullable();
             $table->string('allergy')->nullable();
+            $table->string('gender', 10)->nullable()->after('nik');
         });
     }
 
@@ -33,7 +34,8 @@ return new class extends Migration
                 'address',
                 'visit_history',
                 'disease_history',
-                'allergy'
+                'allergy',
+                'gender'
             ]);
         });
     }

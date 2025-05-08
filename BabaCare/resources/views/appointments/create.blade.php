@@ -49,19 +49,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="specialist" class="form-label">Specialist</label>
-            <select id="specialist" name="specialist" class="form-select" required>
-                <option value="">Pilih Spesialis</option>
-                @foreach($specialists as $key => $value)
-                    <option value="{{ $key }}" {{ old('specialist') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                @endforeach
-            </select>
-            @error('specialist')
-                <div class="text-danger small mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="keluhan_utama" class="form-label">Keluhan Utama</label>
             <textarea id="keluhan_utama" name="keluhan_utama" rows="4"
                       class="form-control" required>{{ old('keluhan_utama') }}</textarea>

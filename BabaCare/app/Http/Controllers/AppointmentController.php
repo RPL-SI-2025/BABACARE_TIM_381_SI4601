@@ -22,12 +22,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        $specialists = [
-            'Umum' => 'Dokter Umum',
-            'Bidan' => 'Dokter Bidan',
-        ];
-        
-        return view('appointments.create', compact('specialists'));
+        return view('appointments.create');
     }
 
     public function store(Request $request)
@@ -45,26 +40,21 @@ class AppointmentController extends Controller
                 'tanggal_reservasi' => 'required|date|after_or_equal:today',
                 'tanggal_pelaksanaan' => 'required|date|after_or_equal:tanggal_reservasi',
                 'waktu_pelaksanaan' => 'required|string',
-                'specialist' => 'required|string',
                 'keluhan_utama' => 'required|string',
             ], $messages, [
                 'tanggal_reservasi' => 'Tanggal Reservasi',
                 'tanggal_pelaksanaan' => 'Tanggal Pelaksanaan',
                 'waktu_pelaksanaan' => 'Waktu Pelaksanaan',
-                'specialist' => 'Specialist',
                 'keluhan_utama' => 'Keluhan Utama',
             ]);
             
-
-            $appointment = new Appointment();
-            $appointment->user_id = Auth::id();
-            $appointment->tanggal_reservasi = $validated['tanggal_reservasi'];
-            $appointment->tanggal_pelaksanaan = $validated['tanggal_pelaksanaan'];
-            $appointment->waktu_pelaksanaan = $validated['waktu_pelaksanaan'];
-            $appointment->specialist = $validated['specialist'];
-            $appointment->keluhan_utama = $validated['keluhan_utama'];
-            $appointment->save();
-
+            $appointment = Appointment::create([
+                'pengguna_id' => Auth::id(),
+                'tanggal_reservasi' => $validated['tanggal_reservasi'],
+                'tanggal_pelaksanaan' => $validated['tanggal_pelaksanaan'],
+                'waktu_pelaksanaan' => $validated['waktu_pelaksanaan'],
+                'keluhan_utama' => $validated['keluhan_utama']
+            ]);
 
             return redirect()->route('appointments.create')
                 ->with('success', 'Janji temu berhasil dibuat.');
@@ -80,5 +70,4 @@ class AppointmentController extends Controller
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
-
 }

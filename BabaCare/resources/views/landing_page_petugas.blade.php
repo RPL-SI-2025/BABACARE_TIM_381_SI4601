@@ -10,7 +10,7 @@
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
                 <i class="fas fa-user text-3xl text-blue-500 mr-3"></i>
-                <h3 class="text-xl font-semibold text-gray-800">Management Pasien</h3>
+                <h3 class="text-xl font-semibold text-gray-800">Pengelolaan data medical record pasien</h3>
             </div>
             <i class="fas fa-chevron-right text-gray-400"></i>
         </div>
@@ -47,16 +47,6 @@
             <div>
                 <h3 class="text-lg font-semibold text-gray-800">Pasien Hari Ini</h3>
                 <p class="text-2xl font-bold text-gray-900">{{ $todayPatients ?? 0 }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <div class="flex items-center">
-            <i class="fas fa-procedures text-3xl text-red-500 mr-3"></i>
-            <div>
-                <h3 class="text-lg font-semibold text-gray-800">Dalam Perawatan</h3>
-                <p class="text-2xl font-bold text-gray-900">{{ $inCarePatients ?? 0 }}</p>
             </div>
         </div>
     </div>

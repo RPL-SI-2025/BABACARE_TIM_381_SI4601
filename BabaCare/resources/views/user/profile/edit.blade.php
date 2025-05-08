@@ -64,43 +64,47 @@
                 @method('PUT')
 
                 <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="first_name" placeholder="Nama Depan" value="{{ old('first_name', $user->first_name) }}">
-                        @error('first_name')<div class="text-danger">{{ $message }}</div>@enderror
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="name" placeholder="Nama" value="{{ old('name', $user->name) }}">
+                        @error('name')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
-                        <input type="number" class="form-control" name="age" placeholder="Usia" value="{{ old('age', $user->age) }}">
+                    <div class="col-md-6">
+                        <input type="number" class="form-control" name="age" placeholder="Umur" value="{{ old('age', $user->age) }}">
                         @error('age')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="visit_history" placeholder="Riwayat kunjungan" value="{{ old('visit_history', $user->visit_history) }}">
-                        @error('visit_history')<div class="text-danger">{{ $message }}</div>@enderror
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="nik" placeholder="NIK" value="{{ old('nik', $user->nik) }}" maxlength="16">
+                        @error('nik')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="last_name" placeholder="Nama Belakang" value="{{ old('last_name', $user->last_name) }}">
-                        @error('last_name')<div class="text-danger">{{ $message }}</div>@enderror
+                    <div class="col-md-6">
+                        <select class="form-control" name="gender">
+                            <option value="">Pilih Gender</option>
+                            <option value="Laki-laki" {{ old('gender', $user->gender) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="Perempuan" {{ old('gender', $user->gender) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('gender')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="date" class="form-control" name="birth_date" placeholder="Tanggal Lahir" value="{{ old('birth_date', $user->birth_date) }}">
                         @error('birth_date')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="text" class="form-control" name="disease_history" placeholder="Riwayat Penyakit" value="{{ old('disease_history', $user->disease_history) }}">
                         @error('disease_history')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="email" class="form-control" name="email" placeholder="Alamat Email" value="{{ old('email', $user->email) }}">
                         @error('email')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="text" class="form-control" name="address" placeholder="Alamat Rumah" value="{{ old('address', $user->address) }}">
                         @error('address')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="text" class="form-control" name="phone" placeholder="Nomor WA" value="{{ old('phone', $user->phone) }}">
                         @error('phone')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input type="text" class="form-control" name="allergy" placeholder="Alergi" value="{{ old('allergy', $user->allergy) }}">
                         @error('allergy')<div class="text-danger">{{ $message }}</div>@enderror
                     </div>

@@ -15,19 +15,32 @@ class Appointment extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'pengguna_id',
         'tanggal_reservasi',
         'tanggal_pelaksanaan',
         'waktu_pelaksanaan',
         'specialist',
-        'keluhan_utama'
+        'keluhan_utama',
+        'keluhan',
+        'status'
+    ];
+
+    protected $casts = [
+        'tanggal_reservasi' => 'date',
+        'tanggal_pelaksanaan' => 'date',
+        'waktu_pelaksanaan' => 'datetime'
     ];
 
     /**
      * Get the user that owns the appointment.
      */
-    public function user()
+    public function pengguna()
     {
-        return $this->belongsTo(pengguna::class);
+        return $this->belongsTo(Pengguna::class);
+    }
+
+    public function patient()
+    {
+        return $this->hasOne(Patient::class);
     }
 }
