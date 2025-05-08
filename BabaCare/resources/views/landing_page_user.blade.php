@@ -101,7 +101,7 @@
                 <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
                 <div>Pendaftaran</div>
             </a>
-            <a href="#" class="nav-link text-center">
+            <a href="{{ route('feedback.form') }}" class="nav-link text-center">
                 <i class="fa-regular fa-comments fa-2x mb-2"></i>
                 <div>Feedback</div>
             </a>
