@@ -51,7 +51,11 @@
                                 <form id="deleteForm-{{ $obat->id }}" action="{{ route('obats.destroy', $obat) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="confirmDelete({{ $obat->id }}, '{{ $obat->nama_obat }}')" class="text-red-500 hover:text-red-700">
+                                    <button 
+                                        dusk="delete-obat-{{ $obat->id }}" 
+                                        type="submit" 
+                                        
+                                        class="text-red-500 hover:text-red-700">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -89,7 +93,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById(`deleteForm-${id}`).submit();
+                return false;
             }
         });
     }
