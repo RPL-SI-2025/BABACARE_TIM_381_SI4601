@@ -17,15 +17,25 @@
         </div>
 
         <div>
-            <label for="kategori" class="block mb-2 text-sm font-semibold text-gray-700">Kategori</label>
-            <input type="text" name="kategori" id="kategori" required
+            <label for="kategori_id" class="block mb-2 text-sm font-semibold text-gray-700">Kategori</label>
+            <select name="kategori_id" id="kategori_id" required
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">-- Pilih Kategori --</option>
+                @foreach ($kategoris as $kategori)
+                    <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div>
-            <label for="golongan" class="block mb-2 text-sm font-semibold text-gray-700">Golongan</label>
-            <input type="text" name="golongan" id="golongan" required
+            <label for="golongan_id" class="block mb-2 text-sm font-semibold text-gray-700">Golongan</label>
+            <select name="golongan_id" id="golongan_id" required
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">-- Pilih Golongan --</option>
+                @foreach ($golongans as $golongan)
+                    <option value="{{ $golongan->id }}">{{ $golongan->nama_golongan }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="flex justify-end space-x-4 pt-4">

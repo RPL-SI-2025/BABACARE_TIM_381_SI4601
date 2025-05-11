@@ -65,4 +65,5 @@ Route::resource('obats', ObatController::class);
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.form');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
+Route::get('/dashboarddataobat', [ObatController::class, 'dashboard'])->name('obats.dashboarddataobat');
 
