@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\NotificationController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -65,4 +66,8 @@ Route::resource('obats', ObatController::class);
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.form');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
+Route::middleware('auth')->prefix('notifications')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+});
 

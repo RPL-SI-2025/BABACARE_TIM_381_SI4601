@@ -51,9 +51,39 @@
                 <div class="px-4 py-6 flex items-center justify-between">
                     <h1 class="text-2xl font-semibold text-gray-800">@yield('header')</h1>
                     <div class="flex items-center space-x-4">
-                        <button class="text-gray-500 hover:text-gray-600">
+                    <div class="relative">
+                        <button id="dropdownNotifButton" class="text-gray-500 hover:text-gray-600 focus:outline-none">
                             <i class="fas fa-bell text-xl"></i>
                         </button>
+                        <div id="dropdownNotifMenu" class="hidden absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white rounded-md shadow-lg z-50">
+                            <div class="p-4 border-b font-semibold">Notifikasi</div>
+                            
+                            <!-- Menampilkan daftar notifikasi untuk user yang login -->
+                            @forelse(auth()->user()->notifications->take(5) as $notif) 
+                                <div class="px-4 py-2 hover:bg-gray-100 text-sm {{ $notif->is_read ? 'text-gray-500' : 'text-gray-900 font-medium' }}">
+                                    <div class="flex items-start gap-2">
+                                        @if($notif->icon ?? false)
+                                            <i class="{{ $notif->icon }} mt-1"></i> <!-- Menampilkan ikon jika ada -->
+                                        @endif
+                                        <div>
+                                            <a href="{{ route('notifications.show', $notif->id) }}" class="block">
+                                                <div>{{ $notif->title ?? 'Notifikasi' }}</div> <!-- Menampilkan judul -->
+                                                <div class="text-xs text-gray-500">{{ $notif->message ?? '' }}</div> <!-- Menampilkan pesan -->
+                                                <div class="text-xs text-gray-400">{{ $notif->created_at->diffForHumans() }}</div> <!-- Menampilkan waktu -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="px-4 py-2 text-sm text-gray-500">Tidak ada notifikasi baru.</div>
+                            @endforelse
+                            
+                            <!-- Link untuk melihat semua notifikasi -->
+                            <div class="border-t p-2 text-center">
+                                <a href="{{ route('notifications.index') }}" class="text-blue-500 text-sm hover:underline">Lihat semua</a>
+                            </div>
+                        </div>
+                    </div>
                         <div class="relative">
                             <button id="dropdownUserButton" class="flex items-center focus:outline-none">
                                 <i class="fas fa-user text-xl mr-2"></i>
@@ -112,18 +142,31 @@
 
     @stack('scripts')
     <script>
-        // Script untuk toggle dropdown
-        document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('dropdownUserButton');
-            const menu = document.getElementById('dropdownUserMenu');
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                menu.classList.toggle('hidden');
-            });
-            document.addEventListener('click', function () {
-                menu.classList.add('hidden');
-            });
+    document.addEventListener('DOMContentLoaded', function () {
+        // Toggle Dropdown User
+        const btnUser = document.getElementById('dropdownUserButton');
+        const menuUser = document.getElementById('dropdownUserMenu');
+
+        btnUser.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menuUser.classList.toggle('hidden');
         });
+
+        // Toggle Dropdown Notifikasi
+        const btnNotif = document.getElementById('dropdownNotifButton');
+        const menuNotif = document.getElementById('dropdownNotifMenu');
+
+        btnNotif.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menuNotif.classList.toggle('hidden');
+        });
+
+        // Klik di luar dropdown menutup semua dropdown
+        document.addEventListener('click', function (e) {
+            menuUser.classList.add('hidden');
+            menuNotif.classList.add('hidden');
+        });
+    });
     </script>
 </body>
 </html>
