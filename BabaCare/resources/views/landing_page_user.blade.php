@@ -99,7 +99,11 @@
             <img src="{{ asset('storage/logo.png') }}" alt="Logo" width="90" class="mb-5">
             <a href="{{ route('appointments.create') }}" class="nav-link mb-4 text-center">
                 <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
-                <div>Pendaftaran</div>
+                <div>Pemeriksaan</div>
+            </a>
+            <a href="{{ route('vaccination.create') }}" class="nav-link mb-4 text-center">
+                <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
+                <div>Vaksin dan Imunisasi</div>
             </a>
             <a href="{{ route('feedback.form') }}" class="nav-link text-center">
                 <i class="fa-regular fa-comments fa-2x mb-2"></i>

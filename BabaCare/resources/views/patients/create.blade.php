@@ -32,7 +32,7 @@
                     <option value="">Pilih Appointment</option>
                     @foreach($appointments as $appointment)
                     <option value="{{ $appointment->id }}" data-pengguna="{{ $appointment->pengguna }}" data-tanggal-reservasi="{{ $appointment->tanggal_reservasi }}" data-tanggal-pelaksanaan="{{ $appointment->tanggal_pelaksanaan }}" data-keluhan="{{ $appointment->keluhan }}">
-                        {{ $appointment->pengguna->name }} - {{ $appointment->tanggal_pelaksanaan }}
+                        {{ $appointment->pengguna->name }} - {{ $appointment->waktu_pelaksanaan }}
                     </option>
                     @endforeach
                 </select>
