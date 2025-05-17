@@ -34,4 +34,9 @@ class pengguna extends Authenticatable
         'password',
         'remember_token',
     ];
+
+        public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 }

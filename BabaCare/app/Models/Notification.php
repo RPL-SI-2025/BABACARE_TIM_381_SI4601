@@ -10,6 +10,7 @@ class Notification extends DatabaseNotification
         'type',
         'notifiable_type',
         'notifiable_id',
+        'data',
         'title',
         'message',
         'icon',
@@ -18,4 +19,15 @@ class Notification extends DatabaseNotification
         'is_read',
         'read_at',
     ];
+    public $incrementing = false;
+    protected $keyType = 'string';
+    public function getTitleAttribute()
+    {
+        return $this->data['title'] ?? '-';
+    }
+
+    public function getMessageAttribute()
+    {
+        return $this->data['message'] ?? '-';
+    }
 }

@@ -1,4 +1,7 @@
-@extends('layouts.app')
+@extends(
+    Auth::user()->hasRole('admin') ? 'layouts.admin' :
+    (Auth::user()->hasRole('petugas') ? 'layouts.app' : 'landing_page_user')
+)
 
 @section('content')
 <div class="container mx-auto p-6">
@@ -11,7 +14,7 @@
                     <li class="border-b">
                         <a href="{{ route('notifications.show', $notif->id) }}" class="block px-4 py-3 text-gray-700 hover:bg-blue-50">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm">{{ $notif->title }}</span>
+                                <span class="text-sm">{{ $notif->data['title'] ?? '-' }}</span>
                                 @if (is_null($notif->read_at))
                                     <span class="w-2 h-2 bg-red-500 rounded-full"></span>
                                 @endif

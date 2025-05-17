@@ -220,5 +220,18 @@
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     @stack('scripts')
+
+    @if(session('toast'))
+        <div 
+            x-data="{ show: true }" 
+            x-init="setTimeout(() => show = false, 5000)" 
+            x-show="show"
+            x-transition
+            class="fixed bottom-4 right-4 bg-white border border-gray-300 shadow-xl rounded-xl px-4 py-3 text-sm text-gray-800 z-50"
+        >
+            <strong>{{ session('toast')['title'] }}</strong>
+            <div>{{ session('toast')['message'] }}</div>
+        </div>
+    @endif
 </body>
 </html>
