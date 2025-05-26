@@ -18,7 +18,19 @@ class PenggunaFactory extends Factory
             'password' => bcrypt('password'),
             'created_at' => now(),
             'role' => 'admin',
-            'updated_at' => now()
+            'updated_at' => now(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'nik' => Str::random(10),
+            'gender' => $this->faker->randomElement(['Perempuan','Laki-laki']),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'age' => $this->faker->numberBetween(1, 100),
+            'birth_date' => now(),
+            'phone' => $this->faker->phoneNumber(),
+            'address' => $this->faker->address(),
+            'visit_history' => $this->faker->postcode(),
+            'disease_history' => Str::random(10),
+            'allergy' => Str::random(10),
         ];
     }
     /**

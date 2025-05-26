@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_rumah_sakit')->unique();
+            $table->string('nama_rumah_sakit');
             $table->string('kode_rumah_sakit')->unique();
             $table->string('nama_staff')->nullable();
             $table->text('alamat')->nullable();

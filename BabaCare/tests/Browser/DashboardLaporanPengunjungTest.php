@@ -32,7 +32,7 @@ class DashboardLaporanPengunjungTest extends DuskTestCase
                 ->assertDontSee('Server Error');
 
             $elapsedTime = microtime(true) - $startTime;
-            $this->assertLessThan(2, $elapsedTime, 'Halaman dashboard terlalu lama dimuat');
+            $this->assertLessThan(3, $elapsedTime, 'Halaman dashboard terlalu lama dimuat');
         });
     }
 

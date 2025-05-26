@@ -19,7 +19,7 @@ class PatientFactory extends Factory
             'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan']),
             'waktu_periksa' => $this->faker->dateTime(),
             'penyakit' => $this->faker->word,
-            'obat' => $this->faker->word,
+            // 'obat_id' => 1,
             'hasil_pemeriksaan' => $this->faker->sentence
         ];
     }

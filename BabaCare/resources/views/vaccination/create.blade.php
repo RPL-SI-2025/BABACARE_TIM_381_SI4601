@@ -132,23 +132,26 @@
             }
         });
     }
-
-    @if(session('success'))
+</script>
+@if(session('success'))
+<script>
     Swal.fire({
         icon: 'success',
         title: 'Berhasil',
-        text: '{{ session('success') }}',
+        text: "{{ session('success') }}",
         confirmButtonText: 'Oke'
     });
-    @endif
+</script>
+@endif
 
-    @if(session('error'))
+@if(session('error'))
+<script>
     Swal.fire({
         icon: 'error',
         title: 'Gagal',
-        text: '{{ session('error') }}',
+        text: "{{ session('error') }}",
         confirmButtonText: 'Oke'
     });
-    @endif
 </script>
+@endif
 @endpush

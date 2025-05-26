@@ -23,7 +23,7 @@ return new class extends Migration
             // Medical Information
             $table->text('hasil_pemeriksaan')->nullable();
             $table->text('pengobatan_sementara')->nullable();
-            $table->text('keadaan_saat_rujuk')->nullable(); 
+            $table->text('keadaan_saat_rujuk')->nullable();
             
             // Staff Information
             $table->unsignedBigInteger('staff_id');

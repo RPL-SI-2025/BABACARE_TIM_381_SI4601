@@ -13,6 +13,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\HospitalController;
+use App\Http\Controllers\PrescriptionController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -73,13 +74,12 @@ Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.s
 Route::prefix('referrals')->name('referrals.')->group(function () {
     Route::get('/', [ReferralController::class, 'index'])->name('index');
     Route::get('/create', [ReferralController::class, 'create'])->name('create');
-    Route::post('/store', [ReferralController::class, 'store'])->name('store');
+    Route::post('/', [ReferralController::class, 'store'])->name('store');
     Route::get('/{referral}/edit', [ReferralController::class, 'edit'])->name('edit');
     Route::put('/{referral}', [ReferralController::class, 'update'])->name('update');
     Route::delete('/{referral}', [ReferralController::class, 'destroy'])->name('destroy');
-    
-    Route::get('/patient-details', [ReferralController::class, 'getPatientDetails'])->name('patient.details');
     Route::get('/{referral}/download', [ReferralController::class, 'downloadPDF'])->name('download');
+    Route::get('/patient-details', [ReferralController::class, 'getPatientDetails'])->name('patient-details');
 });
 
 // Hospital (belum ada page)
@@ -92,4 +92,14 @@ Route::prefix('hospitals')->name('hospitals.')->group(function () {
     Route::delete('/{hospital}', [HospitalController::class, 'destroy'])->name('destroy');
     
     Route::get('/options', [HospitalController::class, 'getOptions'])->name('options');
+});
+
+// Prescription Routes
+Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
+    Route::get('/create', [PrescriptionController::class, 'create'])->name('create');
+    Route::post('', [PrescriptionController::class, 'store'])->name('store');
+    Route::get('/{prescription}/edit', [PrescriptionController::class, 'edit'])->name('edit');
+    Route::put('/{prescription}', [PrescriptionController::class, 'update'])->name('update');
+    Route::delete('/{prescription}', [PrescriptionController::class, 'destroy'])->name('destroy');
+    Route::get('/{prescription}/download', [PrescriptionController::class, 'downloadPDF'])->name('download');
 });

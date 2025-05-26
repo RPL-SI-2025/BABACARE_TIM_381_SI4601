@@ -11,7 +11,7 @@ class Referral extends Model
 
     protected $fillable = [
         'patient_id',
-        'kode_rujukan',
+        'referral_code',
         'origin_hospital_id',
         'destination_hospital_id',
         'hasil_pemeriksaan',
@@ -46,7 +46,7 @@ class Referral extends Model
     public static function generateReferralCode()
     {
         $lastReferral = self::latest()->first();
-        $nextNumber = $lastReferral ? intval(substr($lastReferral->kode_rujukan, -3)) + 1 : 1;
+        $nextNumber = $lastReferral ? intval(substr($lastReferral->referral_code, -3)) + 1 : 1;
         return 'REF-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 }

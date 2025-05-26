@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\Models\Patient;
 use App\Models\pengguna;
 use Laravel\Dusk\Browser;
+use App\Models\Obat;
 use Tests\DuskTestCase;
 use Faker\Factory as Faker;
 
@@ -45,16 +46,29 @@ class PatientTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             // Generate random patient data
+            $obat = Obat::create([
+                'nama_obat' => 'Test Medicine',
+                'jenis_obat' => 'Test Type'
+            ]);
+
             $patientData = [
                 'nama_pasien' => $this->faker->name,
-                'nik' => $this->faker->numerify('################'), // 16 digit NIK
+                'nik' => $this->faker->numerify('################'),
                 'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
+                'address' => $this->faker->address,
                 'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'),
                 'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan', 'UGD']),
                 'waktu_periksa' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d\TH:i'),
                 'penyakit' => $this->faker->randomElement(['Demam', 'Flu', 'Batuk', 'Diare', 'Lainnya']),
                 'obat' => $this->faker->randomElement(['Paracetamol', 'Amoxicillin', 'Ibuprofen', 'Lainnya']),
-                'hasil_pemeriksaan' => $this->faker->sentence(10)
+                'hasil_pemeriksaan' => $this->faker->sentence(10),
+                'allergy' => 'Test Allergy Information',
+                'obat_id' => $obat->id,
+                'tanggal_reservasi'=> now()->format('Y-m-d'),
+                'tanggal_pelaksanaan'=> now()->format('Y-m-d'),
+                'keluhan'=> 'sakit hati',
+                'pengguna_id' => 3,
+                'appointment_id' => 1,
             ];
 
             $this->createUserAndLogin($browser);
@@ -98,7 +112,7 @@ class PatientTest extends DuskTestCase
             $this->createUserAndLogin($browser);
 
             $browser->visit('/patients/create')
-                ->press('@submit-button')
+                ->click('@submit-patient')
                 ->waitFor('.swal2-confirm', 10)
                 ->click('.swal2-confirm')
                 ->waitFor('.bg-red-50', 10) // Wait for error alert
@@ -120,7 +134,29 @@ class PatientTest extends DuskTestCase
      */
     public function test_update_patient()
     {
-        $patient = Patient::factory()->create();
+        $obat = Obat::create([
+            'nama_obat' => 'Test Medicine',
+            'jenis_obat' => 'Test Type'
+        ]);
+        $patient = Patient::factory()->create([
+                'nama_pasien' => $this->faker->name,
+                'nik' => $this->faker->numerify('################'),
+                'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
+                'address' => $this->faker->address,
+                'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'),
+                'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan', 'UGD']),
+                'waktu_periksa' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d\TH:i'),
+                'penyakit' => $this->faker->randomElement(['Demam', 'Flu', 'Batuk', 'Diare', 'Lainnya']),
+                // 'obat' => $this->faker->randomElement(['Paracetamol', 'Amoxicillin', 'Ibuprofen', 'Lainnya']),
+                'hasil_pemeriksaan' => $this->faker->sentence(10),
+                'allergy' => 'Test Allergy Information',
+                'obat_id' => $obat->id,
+                'tanggal_reservasi'=> now()->format('Y-m-d'),
+                'tanggal_pelaksanaan'=> now()->format('Y-m-d'),
+                'keluhan'=> 'sakit hati',
+                'pengguna_id' => 3,
+                'appointment_id' => 1,
+            ]);
 
         $this->browse(function (Browser $browser) use ($patient) {
             $this->createUserAndLogin($browser);
@@ -146,7 +182,29 @@ class PatientTest extends DuskTestCase
      */
     public function test_delete_patient()
     {
-        $patient = \App\Models\Patient::factory()->create();
+        $obat = Obat::create([
+            'nama_obat' => 'Test Medicine',
+            'jenis_obat' => 'Test Type'
+        ]);
+        $patient = Patient::factory()->create([
+            'nama_pasien' => $this->faker->name,
+            'nik' => $this->faker->numerify('################'),
+            'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
+            'address' => $this->faker->address,
+            'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'),
+            'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan', 'UGD']),
+            'waktu_periksa' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d\TH:i'),
+            'penyakit' => $this->faker->randomElement(['Demam', 'Flu', 'Batuk', 'Diare', 'Lainnya']),
+            // 'obat' => $this->faker->randomElement(['Paracetamol', 'Amoxicillin', 'Ibuprofen', 'Lainnya']),
+            'hasil_pemeriksaan' => $this->faker->sentence(10),
+            'allergy' => 'Test Allergy Information',
+            'obat_id' => $obat->id,
+            'tanggal_reservasi'=> now()->format('Y-m-d'),
+            'tanggal_pelaksanaan'=> now()->format('Y-m-d'),
+            'keluhan'=> 'sakit hati',
+            'pengguna_id' => 3,
+            'appointment_id' => 1,
+        ]);
 
         $this->browse(function (Browser $browser) use ($patient) {
             $this->createUserAndLogin($browser);

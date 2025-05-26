@@ -71,7 +71,7 @@
             <!-- Penyakit -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Penyakit</label>
-                <input type="text" name="penyakit" id="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror" required>
+                <input dusk="penyakit" type="text" name="penyakit" id="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror" required>
                 @error('penyakit')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -132,7 +132,7 @@
             <a href="{{ route('patients.index') }}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Batal
             </a>
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <button dusk="submit-patient" type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                 Simpan
             </button>
         </div>

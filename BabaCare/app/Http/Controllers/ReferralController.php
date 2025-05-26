@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Referral;
+use App\Models\Prescription;
 use App\Models\Patient;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
@@ -15,23 +16,29 @@ class ReferralController extends Controller
     {
         $category = $request->input('category', 'rujukan');
         
-        $query = Referral::query();
-        
-        // Search functionality
-        if ($request->has('search')) {
-            $query->whereHas('patient', function($q) use ($request) {
-                $q->where('nama_pasien', 'like', '%' . $request->search . '%');
-            });
+        if ($category === 'resep') {
+            $query = Prescription::with(['patient', 'staff']);
+            
+            // Simple ordering
+            $sortField = $request->input('sort', 'created_at');
+            $sortDirection = $request->input('direction', 'desc');
+            $query->orderBy($sortField, $sortDirection);
+            
+            $prescriptions = $query->paginate(10);
+            
+            return view('referrals.index', compact('prescriptions', 'category'));
+        } else {
+            $query = Referral::with(['patient', 'destinationHospital', 'originHospital', 'staff']);
+            
+            // Simple ordering
+            $sortField = $request->input('sort', 'created_at');
+            $sortDirection = $request->input('direction', 'desc');
+            $query->orderBy($sortField, $sortDirection);
+            
+            $referrals = $query->paginate(10);
+            
+            return view('referrals.index', compact('referrals', 'category'));
         }
-        
-        // Sorting
-        $sortField = $request->input('sort', 'created_at');
-        $sortDirection = $request->input('direction', 'desc');
-        $query->orderBy($sortField, $sortDirection);
-        
-        $referrals = $query->paginate(10);
-        
-        return view('referrals.index', compact('referrals', 'category'));
     }
     
     public function create()
@@ -54,19 +61,19 @@ class ReferralController extends Controller
         $patient = Patient::findOrFail($request->patient_id);
         
         $referralData = array_merge($validatedData, [
-            'kode_rujukan' => Referral::generateReferralCode(),
+            'referral_code' => Referral::generateReferralCode(),
             'staff_id' => Auth::id(),
             'gender' => $patient->gender,
             'address' => $patient->address,
             'hasil_pemeriksaan' => $patient->hasil_pemeriksaan,
-            'pengobatan_sementara' => $patient->keluhan, // Using complaint as temporary treatment
-            'origin_hospital_id' => config('hospital.origin_hospital_id') // From config
+            'pengobatan_sementara' => $patient->keluhan,
+            'origin_hospital_id' => config('hospital.origin_hospital_id')
         ]);
         
         $referral = Referral::create($referralData);
         
         return redirect()->route('referrals.index')
-            ->with('success', 'Referral created successfully');
+            ->with('success', 'Rujukan berhasil dibuat');
     }
     
     public function edit(Referral $referral)
@@ -88,7 +95,7 @@ class ReferralController extends Controller
         $referral->update($validatedData);
         
         return redirect()->route('referrals.index')
-            ->with('success', 'Referral updated successfully');
+            ->with('success', 'Rujukan berhasil diperbarui');
     }
     
     public function destroy(Referral $referral)
@@ -96,13 +103,13 @@ class ReferralController extends Controller
         $referral->delete();
         
         return redirect()->route('referrals.index')
-            ->with('success', 'Referral deleted successfully');
+            ->with('success', 'Rujukan berhasil dihapus');
     }
     
     public function downloadPDF(Referral $referral)
     {
         $pdf = PDF::loadView('pdfs.referral', compact('referral'));
-        return $pdf->download('referral_' . $referral->kode_rujukan . '.pdf');
+        return $pdf->download('referral_' . $referral->referral_code . '.pdf');
     }
     
     // AJAX method to get patient details
