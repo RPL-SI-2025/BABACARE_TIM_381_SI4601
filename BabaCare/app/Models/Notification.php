@@ -11,13 +11,7 @@ class Notification extends DatabaseNotification
         'notifiable_type',
         'notifiable_id',
         'data',
-        'title',
-        'message',
-        'icon',
-        'category',
-        'scheduled_at',
-        'is_read',
-        'read_at',
+        'read_at'
     ];
     public $incrementing = false;
     protected $keyType = 'string';
