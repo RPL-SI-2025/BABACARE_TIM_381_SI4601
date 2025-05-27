@@ -7,6 +7,9 @@ use App\Models\Appointment;
 use App\Notifications\AppointmentReminder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Console\Scheduling\Attributes\AsScheduled;
+
+#[AsScheduled(frequency: 'everyMinute', withoutOverlapping: true)]
 class CheckAppointmentReminders extends Command
 {
     protected $signature = 'check:appointment-reminders';
@@ -20,6 +23,7 @@ class CheckAppointmentReminders extends Command
 
         $appointments = Appointment::whereBetween('waktu_pelaksanaan', [$targetStart, $targetEnd])
             ->where('status', 'pending')
+            ->where('reminder_sent', false)
             ->get();
 
         // Log jumlah janji temu yang ditemukan
@@ -33,6 +37,8 @@ class CheckAppointmentReminders extends Command
             if ($user) {
                 \Log::info("Sending reminder to user: " . $user->id);
                 $user->notify(new AppointmentReminder($appointment));
+                $appointment->reminder_sent = true;
+                $appointment->save();
             }
         }
 

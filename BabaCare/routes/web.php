@@ -77,6 +77,9 @@ Route::post('/notifications/{id}/read', function ($id) {
     $notif->markAsRead();
     return response()->noContent();
 })->name('notifications.markAsRead');
+Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+    ->name('notifications.markAsRead')
+    ->middleware('auth');
 
 
 

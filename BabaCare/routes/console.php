@@ -13,12 +13,13 @@ Artisan::command('inspire', function () {
 
 Schedule::call(function () {
     $now = Carbon::now();
-    $oneHourLater = $now->copy()->addHour();
+    $targetStart = $now->copy()->addHour()->startOfMinute();
+    $targetEnd = $targetStart->copy()->addSeconds(59);
 
-    $appointments = Appointment::whereBetween('waktu_pelaksanaan', [
-        $oneHourLater->copy()->subMinute(1)->toDateTimeString(), // rentang 1 menit
-        $oneHourLater->copy()->addMinute(1)->toDateTimeString()
-    ])->get();
+    $appointments = Appointment::whereBetween('waktu_pelaksanaan', [$targetStart, $targetEnd])
+        ->where('status', 'pending')
+        ->where('reminder_sent', false)
+        ->get();
 
     foreach ($appointments as $appointment) {
         if ($appointment->pengguna) {

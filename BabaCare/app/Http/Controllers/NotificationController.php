@@ -7,19 +7,33 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function index()
-    {
-        $notifications = auth()->user()->notifications()->latest()->get();
-        return view('notifications.index', compact('notifications'));
+public function index()
+{
+    $notifications = auth()->user()->notifications()->latest()->get();
+
+    if (auth()->user()->hasRole('user')) {
+        return view('notifications.user.index', compact('notifications'));
     }
 
-    public function show($id)
-    {
-        $notification = auth()->user()->notifications()->findOrFail($id);
-        $notifications = auth()->user()->notifications()->orderBy('created_at', 'desc')->get();
+    return view('notifications.index', compact('notifications'));
+}
 
-        return view('notifications.show', compact('notification', 'notifications'));
+public function show($id)
+{
+    $notification = auth()->user()->notifications()->findOrFail($id);
+    $notifications = auth()->user()->notifications()->latest()->get();
+
+    // Tandai sebagai telah dibaca
+    if (is_null($notification->read_at)) {
+        $notification->markAsRead();
     }
+
+    if (auth()->user()->hasRole('user')) {
+        return view('notifications.user.show', compact('notification', 'notifications'));
+    }
+
+    return view('notifications.show', compact('notification', 'notifications'));
+}
 
     public function unreadCount()
     {

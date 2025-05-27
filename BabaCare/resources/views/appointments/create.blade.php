@@ -58,7 +58,7 @@
         </div>
 
         <div class="d-flex gap-2 mt-4">
-            <button type="button" onclick="confirmSubmit()" class="btn btn-primary flex-fill">
+            <button type="button" dusk="confirm-appointment" onclick="confirmSubmit()" class="btn btn-primary flex-fill">
                 Daftar
             </button>
             <a href="{{ route('user.landing') }}" class="btn btn-outline-secondary flex-fill">
