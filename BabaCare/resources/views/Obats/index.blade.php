@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto rounded-lg">
+    <div class="overflow-y-auto max-h-96 border border-gray-300 rounded-lg shadow-sm">
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                 <tr>
@@ -68,9 +68,9 @@
     </div>
 
     <!-- Floating Button -->
-    <a href="{{ route('obats.create') }}" 
-       class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition duration-300">
-        <i class="fas fa-plus text-xl"></i>
+    <!-- <h3 class="text-2xl font-semibold text-gray-800">📋 Daftar Obat Tersedia</h3> -->
+    <a href="{{ route('obats.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
+        + Tambah Data Obat
     </a>
 </div>
 @endsection
