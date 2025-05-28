@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             
             // Referral Specific Fields
-            $table->string('kode_rujukan')->unique();
+            $table->string('referral_code')->unique();
             $table->unsignedBigInteger('origin_hospital_id');
             $table->unsignedBigInteger('destination_hospital_id');
             

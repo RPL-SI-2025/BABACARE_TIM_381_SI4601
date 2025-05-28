@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -45,8 +46,14 @@ class Referral extends Model
 
     public static function generateReferralCode()
     {
-        $lastReferral = self::latest()->first();
-        $nextNumber = $lastReferral ? intval(substr($lastReferral->referral_code, -3)) + 1 : 1;
-        return 'REF-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        do {
+            $timestamp = base_convert(time(), 10, 36); 
+            $random = Str::upper(Str::random(5));      
+
+            $suffix = substr($timestamp . $random, 0, 10);
+            $code = 'REF-' . $suffix;
+        } while (self::where('referral_code', $code)->exists());
+
+        return $code;
     }
 }

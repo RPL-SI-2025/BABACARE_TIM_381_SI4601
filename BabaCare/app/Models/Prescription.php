@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -37,8 +38,14 @@ class Prescription extends Model
 
     public static function generatePrescriptionCode()
     {
-        $lastPrescription = self::latest()->first();
-        $nextNumber = $lastPrescription ? intval(substr($lastPrescription->prescription_code, -3)) + 1 : 1;
-        return 'PRESC-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        do {
+            $timestamp = base_convert(time(), 10, 36); 
+            $random = Str::upper(Str::random(5));      
+
+            $suffix = substr($timestamp . $random, 0, 10);
+            $code = 'PRESC-' . $suffix;
+        } while (self::where('prescription_code', $code)->exists());
+
+        return $code;
     }
 }
