@@ -4,6 +4,7 @@ namespace Tests\Browser;
 
 use App\Models\Patient;
 use App\Models\pengguna;
+use App\Models\Appointment;
 use Laravel\Dusk\Browser;
 use App\Models\Obat;
 use Tests\DuskTestCase;
@@ -45,59 +46,45 @@ class PatientTest extends DuskTestCase
     public function test_create_patient_success()
     {
         $this->browse(function (Browser $browser) {
-            // Generate random patient data
+            
+            $user = pengguna::factory()->user()->create([
+                'password' => bcrypt('password'),
+            ]);
+
+            $appointment = Appointment::factory()->create([
+                'pengguna_id'=> $user->id,
+            ]);
+
             $obat = Obat::create([
                 'nama_obat' => 'Test Medicine',
                 'jenis_obat' => 'Test Type'
             ]);
 
             $patientData = [
-                'nama_pasien' => $this->faker->name,
-                'nik' => $this->faker->numerify('################'),
-                'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
-                'address' => $this->faker->address,
-                'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'),
-                'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan', 'UGD']),
-                'waktu_periksa' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d\TH:i'),
-                'penyakit' => $this->faker->randomElement(['Demam', 'Flu', 'Batuk', 'Diare', 'Lainnya']),
-                'obat' => $this->faker->randomElement(['Paracetamol', 'Amoxicillin', 'Ibuprofen', 'Lainnya']),
                 'hasil_pemeriksaan' => $this->faker->sentence(10),
-                'allergy' => 'Test Allergy Information',
-                'obat_id' => $obat->id,
-                'tanggal_reservasi'=> now()->format('Y-m-d'),
-                'tanggal_pelaksanaan'=> now()->format('Y-m-d'),
-                'keluhan'=> 'sakit hati',
-                'pengguna_id' => 3,
-                'appointment_id' => 1,
+                'penyakit' => $this->faker->sentence(10),
             ];
 
             $this->createUserAndLogin($browser);
 
             $browser->visit('/patients/create')
-                ->type('@nama_pasien', $patientData['nama_pasien'])
-                ->type('@nik', $patientData['nik'])
-                ->select('@gender', $patientData['gender'])
-                ->type('@tanggal_lahir', $patientData['tanggal_lahir'])
-                ->select('@jenis_perawatan', $patientData['jenis_perawatan'])
-                ->type('@waktu_periksa', $patientData['waktu_periksa'])
-                ->select('@penyakit', $patientData['penyakit'])
-                ->select('@obat', $patientData['obat'])
+                ->select('@appointment_id', $appointment->id)
+                ->type('@penyakit', $patientData['penyakit'])
+                ->select('@obat_id', $obat->id)
                 ->type('@hasil_pemeriksaan', $patientData['hasil_pemeriksaan'])
-                ->press('@submit-button')
-                ->waitFor('.swal2-confirm', 10)
-                ->click('.swal2-confirm')
+                ->pause(1000)
+                ->press('@submit-patient')
                 ->waitForLocation('/patients', 10)
                 ->assertPathIs('/patients')
-                ->assertSee($patientData['nama_pasien'])
-                ->assertSee('Data pasien berhasil ditambahkan');
+                ->waitFor('.swal2-container', 10)
+                ->assertSee('Berhasil');
 
             $this->assertDatabaseHas('patients', [
-                'nik' => $patientData['nik'],
-                'nama_pasien' => $patientData['nama_pasien'],
-                'gender' => $patientData['gender'],
-                'jenis_perawatan' => $patientData['jenis_perawatan'],
+                'nik' => $user->nik,
+                'nama_pasien' => $user->name,
+                'gender' => $user->gender,
                 'penyakit' => $patientData['penyakit'],
-                'obat' => $patientData['obat']
+                'obat_id' => $obat->id,
             ]);
         });
     }
@@ -113,16 +100,10 @@ class PatientTest extends DuskTestCase
 
             $browser->visit('/patients/create')
                 ->click('@submit-patient')
-                ->waitFor('.swal2-confirm', 10)
-                ->click('.swal2-confirm')
                 ->waitFor('.bg-red-50', 10) // Wait for error alert
                 ->assertSee('Nama pasien wajib diisi.')
                 ->assertSee('NIK wajib diisi.')
-                ->assertSee('Gender wajib diisi.')
-                ->assertSee('Tanggal lahir wajib diisi.')
-                ->assertSee('Jenis perawatan wajib diisi.')
-                ->assertSee('Waktu periksa wajib diisi.')
-                ->assertSee('Penyakit wajib diisi.')
+                ->assertSee('penyakit wajib diisi.')
                 ->assertSee('Obat wajib diisi.')
                 ->assertSee('Hasil pemeriksaan wajib diisi.');
         });
@@ -134,44 +115,45 @@ class PatientTest extends DuskTestCase
      */
     public function test_update_patient()
     {
+        $user = pengguna::factory()->user()->create([
+            'password' => bcrypt('password'),
+        ]);
+
+        $appointment = Appointment::factory()->create([
+            'pengguna_id'=> $user->id,
+        ]);
         $obat = Obat::create([
             'nama_obat' => 'Test Medicine',
             'jenis_obat' => 'Test Type'
         ]);
+
         $patient = Patient::factory()->create([
-                'nama_pasien' => $this->faker->name,
-                'nik' => $this->faker->numerify('################'),
-                'gender' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
-                'address' => $this->faker->address,
-                'tanggal_lahir' => $this->faker->date('Y-m-d', '-18 years'),
-                'jenis_perawatan' => $this->faker->randomElement(['Rawat Inap', 'Rawat Jalan', 'UGD']),
-                'waktu_periksa' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d\TH:i'),
-                'penyakit' => $this->faker->randomElement(['Demam', 'Flu', 'Batuk', 'Diare', 'Lainnya']),
-                // 'obat' => $this->faker->randomElement(['Paracetamol', 'Amoxicillin', 'Ibuprofen', 'Lainnya']),
-                'hasil_pemeriksaan' => $this->faker->sentence(10),
-                'allergy' => 'Test Allergy Information',
-                'obat_id' => $obat->id,
-                'tanggal_reservasi'=> now()->format('Y-m-d'),
-                'tanggal_pelaksanaan'=> now()->format('Y-m-d'),
-                'keluhan'=> 'sakit hati',
-                'pengguna_id' => 3,
-                'appointment_id' => 1,
-            ]);
+            'tanggal_reservasi' => $appointment->tanggal_reservasi,
+            'tanggal_pelaksanaan' =>$appointment->tanggal_pelaksanaan,
+            'keluhan' => $appointment->keluhan_utama,
+            'address'=> $user->address,
+            'obat_id' => $obat->id,
+            'pengguna_id' => $user->id,
+            'appointment_id' => $appointment->id,
+        ]);
 
         $this->browse(function (Browser $browser) use ($patient) {
             $this->createUserAndLogin($browser);
 
             $browser->visit("/patients/{$patient->id}/edit")
-                ->type('nama_pasien', 'Update Nama')
-                ->select('penyakit', 'Demam')
-                ->select('obat', 'Paracetamol')
-                ->press('Update')
-                ->waitFor('.swal2-confirm', 10)
-                ->click('.swal2-confirm')
-                ->waitForLocation("/patients/{$patient->id}", 10)
-                ->assertPathIs("/patients/{$patient->id}");
+                ->type('@penyakit', 'mati')
+                ->select('@obat_id', 1)
+                ->click('@submit-patient')
+                ->waitForLocation('/patients', 10)
+                ->assertPathIs('/patients')
+                ->waitFor('.swal2-container', 10)
+                ->assertSee('Berhasil');
 
-            $this->assertDatabaseHas('patients', ['nama_pasien' => 'Update Nama']);
+            $this->assertDatabaseHas('patients', [
+                'id'=> $patient->id,
+                'penyakit' => 'mati',
+                'obat_id'=> 1,
+            ]);
 
         });
     }

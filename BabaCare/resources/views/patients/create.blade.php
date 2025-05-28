@@ -28,7 +28,7 @@
             <!-- Appointment Selection -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Pilih Appointment</label>
-                <select name="appointment_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('appointment_id') border-red-300 @enderror" required>
+                <select dusk="appointment_id" name="appointment_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('appointment_id') border-red-300 @enderror">
                     <option value="">Pilih Appointment</option>
                     @foreach($appointments as $appointment)
                     <option value="{{ $appointment->id }}" data-pengguna="{{ $appointment->pengguna }}" data-tanggal-reservasi="{{ $appointment->tanggal_reservasi }}" data-tanggal-pelaksanaan="{{ $appointment->tanggal_pelaksanaan }}" data-keluhan="{{ $appointment->keluhan }}">
@@ -44,7 +44,7 @@
             <!-- Nama Pasien -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nama Pasien</label>
-                <input type="text" name="nama_pasien" id="nama_pasien" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama_pasien') border-red-300 @enderror" required readonly>
+                <input type="text" name="nama_pasien" id="nama_pasien" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nama_pasien') border-red-300 @enderror" readonly>
                 @error('nama_pasien')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -53,7 +53,7 @@
             <!-- NIK -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">NIK</label>
-                <input type="text" name="nik" id="nik" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nik') border-red-300 @enderror" required readonly>
+                <input type="text" name="nik" id="nik" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('nik') border-red-300 @enderror" readonly>
                 @error('nik')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -62,7 +62,7 @@
             <!-- Gender -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Gender</label>
-                <input type="text" name="gender" id="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('gender') border-red-300 @enderror" required readonly>
+                <input type="text" name="gender" id="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('gender') border-red-300 @enderror" readonly>
                 @error('gender')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -71,7 +71,7 @@
             <!-- Penyakit -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Penyakit</label>
-                <input dusk="penyakit" type="text" name="penyakit" id="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror" required>
+                <input dusk="penyakit" type="text" name="penyakit" id="penyakit" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('penyakit') border-red-300 @enderror">
                 @error('penyakit')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -80,7 +80,7 @@
             <!-- Tanggal Lahir -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_lahir') border-red-300 @enderror" required readonly>
+                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('tanggal_lahir') border-red-300 @enderror" readonly>
                 @error('tanggal_lahir')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -89,7 +89,7 @@
             <!-- Address -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Alamat</label>
-                <textarea name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('address') border-red-300 @enderror" required readonly></textarea>
+                <textarea name="address" id="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('address') border-red-300 @enderror" readonly></textarea>
                 @error('address')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -107,7 +107,7 @@
             <!-- Obat -->
             <div>
                 <label class="block text-sm font-medium text-gray-700">Obat</label>
-                <select name="obat_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('obat_id') border-red-300 @enderror" required>
+                <select dusk="obat_id" name="obat_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('obat_id') border-red-300 @enderror">
                     <option value="">Pilih Obat</option>
                     @foreach($obats as $obat)
                     <option value="{{ $obat->id }}">{{ $obat->nama_obat }}</option>
@@ -121,7 +121,7 @@
             <!-- Hasil Pemeriksaan -->
             <div class="col-span-3">
                 <label class="block text-sm font-medium text-gray-700">Hasil Pemeriksaan</label>
-                <textarea name="hasil_pemeriksaan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('hasil_pemeriksaan') border-red-300 @enderror" rows="4" required></textarea>
+                <textarea dusk="hasil_pemeriksaan" name="hasil_pemeriksaan" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 @error('hasil_pemeriksaan') border-red-300 @enderror" rows="4"></textarea>
                 @error('hasil_pemeriksaan')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

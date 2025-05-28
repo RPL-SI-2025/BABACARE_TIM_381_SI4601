@@ -130,7 +130,9 @@ class PatientController extends Controller
                 'string' => ':attribute harus berupa teks.',
                 'max' => ':attribute tidak boleh lebih dari :max karakter.',
                 'date' => ':attribute harus berupa tanggal yang valid.',
+                'datetime' => ':attribute harus berupa tanggal dan waktu yang valid.',
                 'in' => ':attribute yang dipilih tidak valid.',
+                'exists' => ':attribute yang dipilih tidak valid.',
                 'unique' => ':attribute sudah terdaftar dalam sistem.',
                 'nik.unique' => 'NIK sudah terdaftar dalam sistem. Mohon periksa kembali NIK yang dimasukkan.'
             ];
@@ -138,37 +140,44 @@ class PatientController extends Controller
             $attributes = [
                 'nama_pasien' => 'Nama pasien',
                 'nik' => 'NIK',
+                'gender' => 'Gender',
+                'tanggal_lahir' => 'Tanggal lahir',
                 'address' => 'Alamat',
                 'allergy' => 'Alergi',
+                'tanggal_reservasi' => 'Tanggal reservasi',
+                'tanggal_pelaksanaan' => 'Tanggal pelaksanaan',
+                'keluhan' => 'Keluhan',
+                'jenis_perawatan' => 'Jenis perawatan',
+                'waktu_periksa' => 'Waktu periksa',
+                'penyakit' => 'Penyakit',
                 'obat_id' => 'Obat',
                 'hasil_pemeriksaan' => 'Hasil pemeriksaan'
             ];
 
+            // Validasi sesuai dengan field yang ada di form
             $validated = $request->validate([
                 'nama_pasien' => 'required|string|max:255',
                 'nik' => 'required|string|max:16|unique:patients,nik,' . $patient->id,
+                'gender' => 'required|string|in:Laki-laki,Perempuan',
+                'tanggal_lahir' => 'required|date',
                 'address' => 'required|string',
                 'allergy' => 'nullable|string',
+                'tanggal_reservasi' => 'required|date',
+                'tanggal_pelaksanaan' => 'required|date',
+                'keluhan' => 'required|string',
+                'jenis_perawatan' => 'required|string|in:Rawat Inap,Rawat Jalan,UGD',
+                'waktu_periksa' => 'required|date',
+                'penyakit' => 'required|string|max:255',
                 'obat_id' => 'required|exists:obats,id',
                 'hasil_pemeriksaan' => 'required|string',
-                'appointment_id' => 'required|exists:appointments,id',
-                'penyakit' => 'required|string|max:255',
             ], $messages, $attributes);
 
-            $appointment = Appointment::with('pengguna')->findOrFail($request->appointment_id);
-            $validated['pengguna_id'] = $appointment->pengguna_id;
-            $validated['tanggal_lahir'] = $appointment->pengguna->birth_date;
-            $validated['gender'] = $appointment->pengguna->gender;
-            $validated['keluhan'] = $appointment->keluhan_utama;
-            $validated['tanggal_reservasi'] = $appointment->tanggal_reservasi;
-            $validated['tanggal_pelaksanaan'] = $appointment->tanggal_pelaksanaan;
-            $validated['jenis_perawatan'] = $appointment->jenis_perawatan ?? 'Rawat Jalan';
-            $validated['penyakit'] = $request->penyakit;
-
+            // Update patient dengan data yang sudah divalidasi
             $patient->update($validated);
 
             return redirect()->route('patients.index')
                 ->with('success', 'Data medical record berhasil diperbarui.');
+                
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {

@@ -20,7 +20,7 @@ class PenggunaFactory extends Factory
             'role' => 'admin',
             'updated_at' => now(),
             'email' => $this->faker->unique()->safeEmail(),
-            'nik' => Str::random(10),
+            'nik' => $this->faker->numerify('################'),
             'gender' => $this->faker->randomElement(['Perempuan','Laki-laki']),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),

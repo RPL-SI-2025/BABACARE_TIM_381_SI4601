@@ -112,7 +112,6 @@ class ReferralPrescriptionTest extends DuskTestCase
                 ->click('@submit-referral')
                 ->waitForLocation('/referrals', 10)
                 ->assertPathIs('/referrals')
-                ->pause(2000)
                 ->waitFor('.swal2-container', 10)
                 ->assertSee('Berhasil');
 

@@ -56,4 +56,5 @@ class Referral extends Model
 
         return $code;
     }
+
 }
