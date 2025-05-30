@@ -70,16 +70,14 @@ Route::middleware('auth')->prefix('notifications')->group(function () {
     Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
 });
-Route::get('/notifications/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
-Route::get('/notifications/latest', [NotificationController::class, 'latest'])->name('notifications.latest');
-Route::post('/notifications/{id}/read', function ($id) {
-    $notif = auth()->user()->notifications()->findOrFail($id);
-    $notif->markAsRead();
-    return response()->noContent();
-})->name('notifications.markAsRead');
-Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
-    ->name('notifications.markAsRead')
-    ->middleware('auth');
+Route::middleware('auth')->prefix('notifications')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::get('/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
+    Route::get('/latest', [NotificationController::class, 'latest'])->name('notifications.latest');
+    Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+});
 
 
 

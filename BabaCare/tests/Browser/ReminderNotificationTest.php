@@ -54,6 +54,7 @@ class ReminderNotificationTest extends DuskTestCase
                 ->type('email', 'tes@gmail.com')
                 ->type('password', 'dimas123')
                 ->press('Login')
+                
                 ->visit('/notifications')
                 ->pause(1000)
                 ->assertSeeIn('.list-group-item', 'Reminder Janji Temu')
