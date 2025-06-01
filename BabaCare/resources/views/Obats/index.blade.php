@@ -28,8 +28,8 @@
                 <tr>
                     <th class="py-3 px-6 text-left">ID</th>
                     <th class="py-3 px-6 text-left">Nama Obat</th>
-                    <th class="py-3 px-6 text-left">Golongan</th>
                     <th class="py-3 px-6 text-left">Kategori</th>
+                    <th class="py-3 px-6 text-left">Golongan</th>
                     <th class="py-3 px-6 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -38,8 +38,8 @@
                     <tr class="border-b hover:bg-gray-50 transition duration-200">
                         <td class="py-4 px-6">{{ $obat->id }}</td>
                         <td class="py-4 px-6">{{ $obat->nama_obat }}</td>
-                        <td class="py-4 px-6">{{ $obat->golongan }}</td>
-                        <td class="py-4 px-6">{{ $obat->kategori }}</td>
+                        <td class="py-4 px-6">{{ $obat->kategori->nama_kategori }}</td>  <!-- Ganti ini -->
+                        <td class="py-4 px-6">{{ $obat->golongan->nama_golongan }}</td>
                         <td class="py-4 px-6 text-center">
                             <div class="flex justify-center items-center space-x-4">
                                 <a href="{{ route('obats.show', $obat) }}" class="text-green-500 hover:text-green-700">
