@@ -17,52 +17,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
-        Pengguna::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
-        ]);
+        // // Create admin user
+        // Pengguna::create([
+        //     'name' => 'Admin',
+        //     'email' => 'admin@example.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'admin',
+        // ]);
 
-        // Create petugas user
-        Pengguna::create([
-            'name' => 'Petugas',
-            'email' => 'petugas@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'petugas'
-        ]);
+        // // Create petugas user
+        // Pengguna::create([
+        //     'name' => 'Petugas',
+        //     'email' => 'petugas@example.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'petugas'
+        // ]);
 
-        // Create test patient
-        Pengguna::create([
-            'name' => 'Test Patient',
-            'email' => 'patient@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'user'
-        ]);
-
-        // Create some test medications
-        $obats = [
-            [
-                'nama_obat' => 'Paracetamol',
-                'deskripsi' => 'Obat untuk menurunkan demam dan meredakan nyeri',
-                'stok' => 100
-            ],
-            [
-                'nama_obat' => 'Amoxicillin',
-                'deskripsi' => 'Antibiotik untuk infeksi bakteri',
-                'stok' => 50
-            ],
-            [
-                'nama_obat' => 'Ibuprofen',
-                'deskripsi' => 'Anti inflamasi non steroid',
-                'stok' => 75
-            ]
-        ];
-
-        foreach ($obats as $obat) {
-            Obat::create($obat);
-        }
+        // // Create test patient
+        // Pengguna::create([
+        //     'name' => 'Test Patient',
+        //     'email' => 'patient@example.com',
+        //     'password' => Hash::make('password'),
+        //     'role' => 'user'
+        // ]);
 
         $vaccines = [
             [

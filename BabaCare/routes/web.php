@@ -71,11 +71,6 @@ Route::resource('obats', ObatController::class);
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.form');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
-<<<<<<< HEAD
-Route::middleware('auth')->prefix('notifications')->group(function () {
-    Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
-});
 Route::middleware('auth')->prefix('notifications')->group(function () {
     Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
     Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
@@ -84,9 +79,7 @@ Route::middleware('auth')->prefix('notifications')->group(function () {
     Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 });
-=======
 Route::get('/dashboarddataobat', [ObatController::class, 'dashboard'])->name('obats.dashboarddataobat');
->>>>>>> origin/Asykur
 
 
 // Rujukan
