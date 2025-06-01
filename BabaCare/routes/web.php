@@ -52,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/profile/edit', [UserProfileController::class, 'edit'])->name('user.profile.edit');
     Route::put('/user/profile/update', [UserProfileController::class, 'update'])->name('user.profile.update');
 
+    // Feedback Dashboard Route
+    Route::get('/admin/feedback/dashboard', [FeedbackController::class, 'dashboard'])->name('admin.feedback.dashboard');
+
     // Logout Route
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
