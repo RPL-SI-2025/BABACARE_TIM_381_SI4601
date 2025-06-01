@@ -33,13 +33,13 @@
                 <span class="text-xs text-gray-500">Dashboard</span>
             </a>
 
-            <a href="#"
+            <a href="{{ route('tenaga_medis.index') }}"
                class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/tenaga_medis.svg') }}" alt="Tenaga Medis" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Tenaga Medis</span>
             </a>
 
-            <a href="#"
+            <a href="{{ route('obats.index') }}"
                class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/obat.svg') }}" alt="Data Obat" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Data Obat</span>
