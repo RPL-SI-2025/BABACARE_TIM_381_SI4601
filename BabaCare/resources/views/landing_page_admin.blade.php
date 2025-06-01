@@ -40,10 +40,10 @@
                 <span class="text-xs text-gray-500">Tenaga Medis</span>
             </a>
 
-            <a href="{{ route('obats.index') }}"
+            <a href="/dashboarddataobat"
                 class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/obat.svg') }}" alt="Dashboard Data Obat" class="w-8 h-8 mb-2">
-                <span class="text-xs text-gray-500">Data Obat</span>
+                <span class="text-xs text-gray-500">Dashboard Data Obat</span>
             </a>
 
             <a href="/obats"
