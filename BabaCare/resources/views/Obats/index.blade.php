@@ -68,9 +68,9 @@
     </div>
 
     <!-- Floating Button -->
-    <!-- <h3 class="text-2xl font-semibold text-gray-800">📋 Daftar Obat Tersedia</h3> -->
-    <a href="{{ route('obats.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
-        + Tambah Data Obat
+    <a href="{{ route('obats.create') }}" 
+       class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition duration-300">
+        <i class="fas fa-plus text-xl"></i>
     </a>
 </div>
 @endsection
