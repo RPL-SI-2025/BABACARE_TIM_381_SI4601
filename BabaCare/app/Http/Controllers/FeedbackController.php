@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FeedbackController extends Controller
 {
@@ -34,5 +35,25 @@ class FeedbackController extends Controller
     {
         $feedback = Feedback::latest()->get();
         return view('admin.feedback.index', compact('feedback'));
+    }
+
+    public function dashboard()
+    {
+        // Get total feedback count
+        $totalFeedback = Feedback::count();
+        
+        // Get satisfaction statistics
+        $satisfactionStats = Feedback::select('satisfaction', DB::raw('count(*) as total'))
+            ->groupBy('satisfaction')
+            ->get();
+            
+        // Get all feedback with pagination
+        $feedbackList = Feedback::latest()->paginate(10);
+        
+        return view('admin.feedback.dashboard', compact(
+            'totalFeedback',
+            'satisfactionStats',
+            'feedbackList'
+        ));
     }
 }

@@ -51,6 +51,12 @@
                 <img src="{{ asset('storage/manajemen_data.svg') }}" alt="Manajemen Data Obat" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Manajemen Data Obat</span>
             </a>
+
+            <a href="{{ route('admin.feedback.dashboard') }}"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <i class="fas fa-chart-pie w-8 h-8 mb-2"></i>
+                <span class="text-xs text-gray-500">Feedback Dashboard</span>
+            </a>
         </nav>
     </div>
 
