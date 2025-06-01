@@ -20,8 +20,8 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect('/landing');
-        $this->assertDatabaseHas('users', [
+        $response->assertRedirect('/login');
+        $this->assertDatabaseHas('penggunas', [
             'email' => 'johndoe@example.com',
         ]);
     }

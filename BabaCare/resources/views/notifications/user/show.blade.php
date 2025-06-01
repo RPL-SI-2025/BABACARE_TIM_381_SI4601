@@ -29,7 +29,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $notification->data['title'] ?? '-' }}</h5>
                     <p class="card-text">{{ $notification->data['message'] ?? '-' }}</p>
-                    <p class="card-text"><strong>Jam:</strong> {{ $notification->data['time'] ?? '-' }}</p>
+                    @if(isset($notification->data['time']) && isset($notification->data['title']) && (Str::contains($notification->data['title'], 'Reminder') || Str::contains($notification->data['title'], 'Vaksinasi')))
+                        <p class="card-text"><strong>Jam:</strong> {{ $notification->data['time'] }}</p>
+                    @endif
                     <p class="text-muted">Dikirim pada: {{ $notification->created_at->format('d M Y H:i') }}</p>
                 </div>
             </div>

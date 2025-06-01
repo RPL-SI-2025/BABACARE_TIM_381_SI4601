@@ -41,7 +41,8 @@ class HomepageTest extends DuskTestCase
                     ->visit('/petugas')
                     ->assertSee('Selamat Datang di BabaCare')
                     ->assertSee('Dashboard')
-                    ->assertSee('Management Pasien')
+                    ->assertSee('Medical Record Pasien')
+                    ->assertSee('Rujukan dan Resep Obat')
                     ->assertSee('Laporan Data Pasien');
         });
     }
@@ -58,7 +59,8 @@ class HomepageTest extends DuskTestCase
             $browser->loginAs($user)
                     ->visit('/user')
                     ->assertSee('Puskesmas')
-                    ->assertSee('Pendaftaran')
+                    ->assertSee('Pemeriksaan')
+                    ->assertSee('Vaksin dan Imunisasi')
                     ->assertSee('Feedback');
         });
     }

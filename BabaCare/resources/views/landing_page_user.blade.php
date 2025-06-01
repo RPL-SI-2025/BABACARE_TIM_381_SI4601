@@ -115,7 +115,11 @@
             <img src="{{ asset('storage/logo.png') }}" alt="Logo" width="90" class="mb-5">
             <a href="{{ route('appointments.create') }}" class="nav-link mb-4 text-center">
                 <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
-                <div>Pendaftaran</div>
+                <div>Pemeriksaan</div>
+            </a>
+            <a href="{{ route('vaccination.create') }}" class="nav-link mb-4 text-center">
+                <i class="fa-solid fa-file-circle-plus fa-2x mb-2"></i>
+                <div>Vaksin dan Imunisasi</div>
             </a>
             <a href="{{ route('feedback.form') }}" class="nav-link text-center">
                 <i class="fa-regular fa-comments fa-2x mb-2"></i>
@@ -286,22 +290,7 @@
                         lastNotifiedId = data.id;
 
                         // Show SweetAlert
-                        Swal.fire({
-                            toast: true,
-                            position: 'bottom-end',
-                            iconHtml: '<i class="fa fa-bell"></i>',
-                            title: `<strong>${data.title}</strong>`,
-                            html: `<b>Bapak/Ibu {{ auth()->user()->name }}</b><br>${data.message},Jam: ${data.time}`,
-                            showConfirmButton: true,
-                            timer: 60000,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                const icon = Swal.getIcon();
-                                if (icon) {
-                                    icon.innerHTML = '<i class="fas fa-calendar-alt" style="color: #3085d6;"></i>';
-                                }
-                            }
-                        });
+                        showNotificationSwal(data);
 
                         // Mark as read
                         if (data.id) {
@@ -318,30 +307,42 @@
                 });
         }
 
-        // Initial check for unread notifications
+        // Unified SweetAlert function for all notifications
+        function showNotificationSwal(notif) {
+            // Support both {data: {...}} and flat {...} notification objects
+            let data = notif && notif.data ? notif.data : notif || {};
+            // Fallback to notif.title/message/time if not present in data
+            const title = data.title || notif.title || 'Notifikasi';
+            const message = data.message || notif.message || '-';
+            const time = data.time || notif.time || '';
+            // Only show Jam for reminders/vaccinations with time
+            const showTime = title && (title.includes('Reminder') || title.includes('Vaksinasi')) && time;
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                iconHtml: '<i class="fa fa-bell"></i>',
+                title: `<strong>${title}</strong>`,
+                html: `<b>Bapak/Ibu {{ auth()->user()->name }}</b><br>${message}${showTime ? ', Jam: <b>' + time + '</b>' : ''}`,
+                showConfirmButton: true,
+                timer: 60000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    const icon = Swal.getIcon();
+                    if (icon) {
+                        icon.innerHTML = '<i class="fas fa-calendar-alt" style="color: #3085d6;"></i>';
+                    }
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             @if(auth()->check() && auth()->user()->unreadNotifications->isNotEmpty())
                 const notif = @json(auth()->user()->unreadNotifications->first());
-                Swal.fire({
-                    toast: true,
-                    position: 'bottom-end',
-                    iconHtml: '<i class="fa fa-bell"></i>',
-                    title: `<strong>${notif.data.title || 'REMINDER JANJI TEMU'}</strong>`,
-                    html: `<b>Bapak/Ibu {{ auth()->user()->name }}</b><br>${notif.data.message} jam <b>${notif.data.time}</b>`,
-                    showConfirmButton: true,
-                    timer: 60000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        const icon = Swal.getIcon();
-                        if (icon) {
-                            icon.innerHTML = '<i class="fas fa-calendar-alt" style="color: #3085d6;"></i>';
-                        }
-                    }
-                });
-
+                showNotificationSwal(notif);
                 // Mark as read
-                if (notif.id) {
-                    fetch("{{ url('/notifications') }}/" + notif.id + "/read", {
+                if ((notif && notif.id) || (notif && notif.data && notif.data.id)) {
+                    const id = notif.id || notif.data.id;
+                    fetch("{{ url('/notifications') }}/" + id + "/read", {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

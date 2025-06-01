@@ -35,6 +35,11 @@
                         <i class="fas fa-user w-5 h-5 mr-2"></i>
                         <span>Medical Record Pasien</span>
                     </a>
+                    <a href="{{ route('referrals.index') }}" 
+                       class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('referrals.*') ? 'bg-gray-100' : '' }}">
+                        <i class="fas fa-user w-5 h-5 mr-2"></i>
+                        <span>Rujukan dan Resep Obat</span>
+                    </a>
                     <a href="{{ route('reports.index') }}" 
                        class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-gray-100' : '' }}">
                         <i class="fas fa-chart-line w-5 h-5 mr-2"></i>

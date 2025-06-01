@@ -19,7 +19,6 @@ class Appointment extends Model
         'tanggal_reservasi',
         'tanggal_pelaksanaan',
         'waktu_pelaksanaan',
-        'specialist',
         'keluhan_utama',
         'keluhan',
         'status'

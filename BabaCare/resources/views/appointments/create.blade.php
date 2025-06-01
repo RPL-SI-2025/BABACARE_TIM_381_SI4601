@@ -1,6 +1,6 @@
 @extends('landing_page_user')
 
-@section('title', 'Pendaftaran Pasien')
+@section('title', 'Pendaftaran Pemeriksaan')
 
 @section('content')
 <div class="card shadow-sm p-4 mb-5 bg-white rounded">
