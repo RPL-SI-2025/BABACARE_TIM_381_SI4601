@@ -28,11 +28,7 @@
 
         <!-- Navigation -->
         <nav class="flex flex-col space-y-8 mt-28">
-<<<<<<< HEAD
             <a href="{{ route('landing') }}"
-=======
-            <a href="/landing_page_admin"
->>>>>>> Dimas
                 class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/dashboard.svg') }}" alt="Dashboard" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Dashboard</span>
@@ -44,11 +40,7 @@
                 <span class="text-xs text-gray-500">Tenaga Medis</span>
             </a>
 
-<<<<<<< HEAD
             <a href="{{ route('obats.index') }}"
-=======
-            <a href="/dashboarddataobat"
->>>>>>> Dimas
                 class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/obat.svg') }}" alt="Dashboard Data Obat" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Data Obat</span>
