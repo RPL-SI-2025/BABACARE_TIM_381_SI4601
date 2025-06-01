@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppointmentController;
@@ -62,6 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/profile/edit', [UserProfileController::class, 'edit'])->name('user.profile.edit');
     Route::put('/user/profile/update', [UserProfileController::class, 'update'])->name('user.profile.update');
 
+    // Feedback Dashboard Route
+    Route::get('/admin/feedback/dashboard', [FeedbackController::class, 'dashboard'])->name('admin.feedback.dashboard');
+
     // Logout Route
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 }); 
@@ -80,6 +84,16 @@ Route::resource('obats', ObatController::class);
 
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.form');
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+Route::middleware('auth')->prefix('notifications')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::get('/poll', [NotificationController::class, 'poll'])->name('notifications.poll');
+    Route::get('/latest', [NotificationController::class, 'latest'])->name('notifications.latest');
+    Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+});
+Route::get('/dashboarddataobat', [ObatController::class, 'dashboard'])->name('obats.dashboarddataobat');
 
 // Rujukan
 Route::prefix('referrals')->name('referrals.')->group(function () {

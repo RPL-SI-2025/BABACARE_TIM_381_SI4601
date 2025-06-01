@@ -28,7 +28,11 @@
 
         <!-- Navigation -->
         <nav class="flex flex-col space-y-8 mt-28">
+<<<<<<< HEAD
             <a href="{{ route('landing') }}"
+=======
+            <a href="/landing_page_admin"
+>>>>>>> Dimas
                 class="flex flex-col items-center text-gray-700 hover:text-black">
                 <img src="{{ asset('storage/dashboard.svg') }}" alt="Dashboard" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Dashboard</span>
@@ -40,9 +44,13 @@
                 <span class="text-xs text-gray-500">Tenaga Medis</span>
             </a>
 
+<<<<<<< HEAD
             <a href="{{ route('obats.index') }}"
+=======
+            <a href="/dashboarddataobat"
+>>>>>>> Dimas
                 class="flex flex-col items-center text-gray-700 hover:text-black">
-                <img src="{{ asset('storage/obat.svg') }}" alt="Data Obat" class="w-8 h-8 mb-2">
+                <img src="{{ asset('storage/obat.svg') }}" alt="Dashboard Data Obat" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Data Obat</span>
             </a>
 
@@ -51,19 +59,99 @@
                 <img src="{{ asset('storage/manajemen_data.svg') }}" alt="Manajemen Data Obat" class="w-8 h-8 mb-2">
                 <span class="text-xs text-gray-500">Manajemen Data Obat</span>
             </a>
+
+            <a href="{{ route('admin.feedback.dashboard') }}"
+                class="flex flex-col items-center text-gray-700 hover:text-black">
+                <i class="fas fa-chart-pie w-8 h-8 mb-2"></i>
+                <span class="text-xs text-gray-500">Feedback Dashboard</span>
+            </a>
         </nav>
     </div>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">
         <!-- Header -->
-        <header class="flex items-center justify-end bg-white shadow px-6 py-8 relative">
-            <!-- Top right icons -->
+        <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <header class="flex items-center justify-between bg-white shadow px-6 py-8 relative">
+            <div></div> <!-- Placeholder untuk center header -->
             <div class="flex items-center space-x-8 absolute right-10 top-4">
-                <a href="#" class="relative">
-                    <img src="{{ asset('storage/notifikasi.svg') }}" alt="Notifikasi" class="w-8 h-8">
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-                </a>
+                <!-- Notification Dropdown -->
+                <div class="relative">
+                    @php $unreadCount = auth()->user()->unreadNotifications->count(); @endphp
+                    <button id="dropdownNotifButton" class="relative text-gray-500 hover:text-gray-600 focus:outline-none">
+                        <i class="fas fa-bell text-xl"></i>
+                        @if($unreadCount > 0)
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                {{ $unreadCount }}
+                            </span>
+                        @endif
+                    </button>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const notifBtn = document.getElementById('dropdownNotifButton');
+                            const notifMenu = document.getElementById('dropdownNotifMenu');
+                            if (notifBtn && notifMenu) {
+                                notifBtn.addEventListener('click', function(e) {
+                                    e.stopPropagation();
+                                    notifMenu.classList.toggle('hidden');
+                                });
+                                document.addEventListener('click', function(e) {
+                                    if (!notifMenu.contains(e.target) && !notifBtn.contains(e.target)) {
+                                        notifMenu.classList.add('hidden');
+                                    }
+                                });
+                                // Mark notification as read on click
+                                notifMenu.querySelectorAll('a[href*="notifications/show"]').forEach(function(link) {
+                                    link.addEventListener('click', function(ev) {
+                                        const notifId = this.href.split('/').pop();
+                                        fetch(`/notifications/${notifId}/read`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                                'Content-Type': 'application/json',
+                                                'Accept': 'application/json'
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        });
+                    </script>
+                    <div id="dropdownNotifMenu" class="hidden absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto bg-white rounded-md shadow-lg z-50">
+                        <div class="p-4 border-b font-semibold">Notifikasi</div>
+                        @forelse(auth()->user()->notifications->take(5) as $notif)
+                            <div class="px-4 py-2 hover:bg-gray-100 text-sm border-b border-gray-100 {{ $notif->read_at ? 'text-gray-500' : 'text-gray-900 font-medium' }}">
+                                <div class="flex items-start gap-2">
+                                    <i class="fas fa-bell mt-1 text-blue-500"></i>
+                                    <div style="word-break: break-word; white-space: normal;">
+                                        <a href="{{ route('notifications.show', $notif->id) }}" class="block">
+                                            <div class="font-medium">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+                                            <div class="text-xs text-gray-500">
+                                                {{ $notif->data['message'] ?? '' }}
+                                                @php
+                                                    $title = $notif->data['title'] ?? '';
+                                                    $time = $notif->data['time'] ?? '';
+                                                    $showTime = $title && Str::contains($title, 'Reminder') && $time;
+                                                @endphp
+                                                @if($showTime)
+                                                    , Jam: <b>{{ $time }}</b>
+                                                @endif
+                                            </div>
+                                            <div class="text-xs text-gray-400">{{ $notif->created_at->diffForHumans() }}</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="px-4 py-2 text-sm text-gray-500">Tidak ada notifikasi baru.</div>
+                        @endforelse
+                        <div class="border-t p-2 text-center">
+                            <a href="{{ route('notifications.index') }}" class="text-blue-500 text-sm hover:underline">Lihat semua</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile -->
                 <a href="#" class="flex items-center space-x-3">
                     <img src="{{ asset('storage/avatar.svg') }}" alt="Profile" class="w-8 h-8 rounded-full">
                     <span class="text-gray-700 text-sm font-semibold">Admin</span>
@@ -114,5 +202,75 @@
         });
     </script>
 @endif
+<script>
+    // Unified SweetAlert function for all notifications
+    function showNotificationSwal(notif) {
+        let data = notif && notif.data ? notif.data : notif || {};
+        const title = data.title || notif.title || 'Notifikasi';
+        const message = data.message || notif.message || '-';
+        const time = data.time || notif.time || '';
+        const showTime = title && (title.includes('Reminder') || title.includes('Vaksinasi')) && time;
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            iconHtml: '<i class="fa fa-bell"></i>',
+            title: `<strong>${title}</strong>`,
+            html: `<b>Bapak/Ibu {{ auth()->user()->name }}</b><br>${message}${showTime ? ', Jam: <b>' + time + '</b>' : ''}`,
+            showConfirmButton: true,
+            timer: 60000,
+            timerProgressBar: true,
+            didOpen: () => {
+                const icon = Swal.getIcon();
+                if (icon) {
+                    icon.innerHTML = '<i class="fas fa-calendar-alt" style="color: #3085d6;"></i>';
+                }
+            }
+        });
+    }
+    // Check for new notifications to show in SweetAlert
+    let lastNotifiedId = null;
+    function checkNewNotification() {
+        fetch("{{ route('notifications.latest') }}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.has_new && data.id !== lastNotifiedId) {
+                    lastNotifiedId = data.id;
+                    showNotificationSwal(data);
+                    // Mark as read
+                    if (data.id) {
+                        fetch("{{ url('/notifications') }}/" + data.id + "/read", {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        });
+                    }
+                }
+            });
+    }
+    // Initial check for unread notifications
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(auth()->check() && auth()->user()->unreadNotifications->isNotEmpty())
+            const notif = @json(auth()->user()->unreadNotifications->first());
+            showNotificationSwal(notif);
+            // Mark as read
+            if ((notif && notif.id) || (notif && notif.data && notif.data.id)) {
+                const id = notif.id || notif.data.id;
+                fetch("{{ url('/notifications') }}/" + id + "/read", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+            }
+        @endif
+        // Optionally, set interval polling for new notifications
+        setInterval(checkNewNotification, 30000);
+    });
+</script>
 </body>
 </html>

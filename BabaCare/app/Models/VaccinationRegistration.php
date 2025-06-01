@@ -22,6 +22,7 @@ class VaccinationRegistration extends Model
         'vaccination_date',
         'vaccination_time',
         'allergies',
+        'reminder_sent',
     ];
 
     /**
@@ -32,6 +33,7 @@ class VaccinationRegistration extends Model
     protected $casts = [
         'vaccination_date' => 'date',
         'vaccination_time' => 'datetime:H:i',
+        'reminder_sent' => 'boolean',
     ];
 
     /**

@@ -1,6 +1,3 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -90,6 +87,27 @@
             font-size: 12px;
             color: #95A5A6;
         }
+        /* Custom styles for notification dropdown */
+        #dropdownNotifMenu {
+            min-width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            right: 0;
+            left: auto;
+        }
+        #dropdownNotifMenu .notification-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #f1f1f1;
+            word-break: break-word;
+            white-space: normal;
+        }
+        #dropdownNotifMenu .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+        #dropdownNotifMenu .notification-time {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -115,16 +133,57 @@
         <div class="flex-grow-1 position-relative" style="min-height: 100vh;">
             <!-- Profile & Notification -->
             <div class="position-absolute top-0 end-0 p-4 d-flex align-items-center" style="z-index: 20;">
-                <a href="#" class="me-3 position-relative">
-                    <i class="fa-regular fa-bell fa-lg" style="color: #95A5A6;"></i>
-                    <span class="notification-badge">3</span>
-                </a>
+                <!-- Notification Dropdown -->
+                <div class="dropdown me-3">
+                    <button class="btn position-relative p-0" id="dropdownNotifButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-regular fa-bell fa-lg" style="color: #95A5A6;"></i>
+                        @if(auth()->check() && auth()->user()->unreadNotifications->count() > 0)
+                            <span class="notification-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                        @endif
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="dropdownNotifMenu" aria-labelledby="dropdownNotifButton">
+                        <li><div class="p-3 border-bottom fw-bold">Notifikasi</div></li>
+                        @if(auth()->check() && auth()->user()->notifications->count() > 0)
+                            @foreach(auth()->user()->notifications->take(5) as $notification)
+                                <li>
+                                    <a href="{{ route('notifications.show', $notification->id) }}" class="dropdown-item notification-item">
+                                        <div class="d-flex align-items-start">
+                                            <i class="fas fa-bell me-2 mt-1 text-primary"></i>
+                                            <div style="word-break: break-word; white-space: normal;">
+                                                <div class="fw-medium">{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
+                                                <div class="small">
+                                                    {{ $notification->data['message'] ?? '' }}
+                                                    @php
+                                                        $title = $notification->data['title'] ?? '';
+                                                        $time = $notification->data['time'] ?? '';
+                                                        $showTime = $title && Str::contains($title, 'Reminder') && $time;
+                                                    @endphp
+                                                    @if($showTime)
+                                                        , Jam: <b>{{ $time }}</b>
+                                                    @endif
+                                                </div>
+                                                <div class="notification-time">{{ $notification->created_at->diffForHumans() }}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @else
+                            <li><div class="dropdown-item text-center py-3 text-muted">Tidak ada notifikasi</div></li>
+                        @endif
+                        <li><div class="p-2 border-top text-center">
+                            <a href="{{ route('notifications.index') }}" class="text-primary small">Lihat semua notifikasi</a>
+                        </div></li>
+                    </ul>
+                </div>
+
+                <!-- Profile Dropdown -->
                 <div class="dropdown">
-                    <a href="#" role="button" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="#" role="button" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUserButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user fa-lg" style="color: #34495E;"></i>
                         <span class="ms-2" style="color: #34495E;">{{ Auth::user()->name ?? 'User' }}</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
+                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown" id="dropdownUserMenu" aria-labelledby="dropdownUserButton">
                         <li><a class="dropdown-item" href="{{ route('user.profile.edit') }}"><i class="fas fa-user me-2"></i>Profil</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -177,52 +236,142 @@
 
     <!-- Bootstrap Bundle (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Optional Script for Layout Adjustment -->
     <script>
-        function adjustLayout() {
-            if (window.innerWidth < 992) {
-                const sidebarNav = document.querySelector('.col-lg-2 nav');
-                if (sidebarNav) {
-                    sidebarNav.style.position = 'static';
-                    sidebarNav.style.minHeight = 'auto';
-                }
-                const navList = document.querySelector('.nav.flex-column');
-                if (navList) {
-                    navList.classList.remove('flex-column');
-                    navList.classList.add('flex-row');
-                    navList.style.justifyContent = 'center';
-                }
-                const navItems = document.querySelectorAll('.nav-item');
-                navItems.forEach(item => {
-                    item.style.marginRight = '20px';
-                    item.style.marginBottom = '10px';
+        // Notification polling and display
+        function fetchNotifications() {
+            fetch("{{ route('notifications.poll') }}")
+                .then(response => response.json())
+                .then(data => {
+                    // Update badge
+                    const badge = document.querySelector('#dropdownNotifButton span');
+                    if (data.count > 0) {
+                        if (badge) {
+                            badge.innerText = data.count;
+                        } else {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full';
+                            newBadge.innerText = data.count;
+                            document.getElementById('dropdownNotifButton').appendChild(newBadge);
+                        }
+                    } else if (badge) {
+                        badge.remove();
+                    }
+
+                    // Update dropdown menu
+                    const container = document.getElementById('dropdownNotifMenu');
+                    let html = `<div class="p-4 border-b font-semibold">Notifikasi</div>`;
+
+                    if (data.notifications.length === 0) {
+                        html += `<div class="px-4 py-2 text-sm text-gray-500">Tidak ada notifikasi baru.</div>`;
+                    } else {
+                        data.notifications.forEach(notif => {
+                            html += `
+                                <div class="px-4 py-2 hover:bg-gray-100 text-sm text-gray-900 font-medium">
+                                    <div class="flex items-start gap-2">
+                                        <i class="fas fa-bell mt-1"></i>
+                                        <div>
+                                            <a href="/notifications/${notif.id}" class="block">
+                                                <div>${notif.title}</div>
+                                                <div class="text-xs text-gray-500">${notif.message}</div>
+                                                <div class="text-xs text-gray-400">${notif.time} • ${notif.created_at}</div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `<div class="border-t p-2 text-center">
+                        <a href="{{ route('notifications.index') }}" class="text-blue-500 text-sm hover:underline">Lihat semua</a>
+                    </div>`;
+
+                    container.innerHTML = html;
                 });
-            } else {
-                const sidebarNav = document.querySelector('.col-lg-2 nav');
-                if (sidebarNav) {
-                    sidebarNav.style.position = 'sticky';
-                    sidebarNav.style.minHeight = 'calc(100vh - 80px)';
-                }
-                const navList = document.querySelector('.nav');
-                if (navList && !navList.classList.contains('navbar-nav')) {
-                    navList.classList.remove('flex-row');
-                    navList.classList.add('flex-column');
-                    navList.style.justifyContent = '';
-                }
-                const navItems = document.querySelectorAll('.col-lg-2 .nav-item');
-                navItems.forEach(item => {
-                    item.style.marginRight = '0';
-                    item.style.marginBottom = '1rem';
+        }
+        // Check for new notifications to show in SweetAlert
+        let lastNotifiedId = null;
+
+        function checkNewNotification() {
+            fetch("{{ route('notifications.latest') }}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.has_new && data.id !== lastNotifiedId) {
+                        lastNotifiedId = data.id;
+
+                        // Show SweetAlert
+                        showNotificationSwal(data);
+
+                        // Mark as read
+                        if (data.id) {
+                            fetch("{{ url('/notifications') }}/" + data.id + "/read", {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                }
+                            });
+                        }
+                    }
                 });
-            }
         }
 
-        window.onload = adjustLayout;
-        window.onresize = adjustLayout;
+        // Unified SweetAlert function for all notifications
+        function showNotificationSwal(notif) {
+            // Support both {data: {...}} and flat {...} notification objects
+            let data = notif && notif.data ? notif.data : notif || {};
+            // Fallback to notif.title/message/time if not present in data
+            const title = data.title || notif.title || 'Notifikasi';
+            const message = data.message || notif.message || '-';
+            const time = data.time || notif.time || '';
+            // Only show Jam for reminders/vaccinations with time
+            const showTime = title && (title.includes('Reminder') || title.includes('Vaksinasi')) && time;
+            Swal.fire({
+                toast: true,
+                position: 'bottom-end',
+                iconHtml: '<i class="fa fa-bell"></i>',
+                title: `<strong>${title}</strong>`,
+                html: `<b>Bapak/Ibu {{ auth()->user()->name }}</b><br>${message}${showTime ? ', Jam: <b>' + time + '</b>' : ''}`,
+                showConfirmButton: true,
+                timer: 60000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    const icon = Swal.getIcon();
+                    if (icon) {
+                        icon.innerHTML = '<i class="fas fa-calendar-alt" style="color: #3085d6;"></i>';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(auth()->check() && auth()->user()->unreadNotifications->isNotEmpty())
+                const notif = @json(auth()->user()->unreadNotifications->first());
+                showNotificationSwal(notif);
+                // Mark as read
+                if ((notif && notif.id) || (notif && notif.data && notif.data.id)) {
+                    const id = notif.id || notif.data.id;
+                    fetch("{{ url('/notifications') }}/" + id + "/read", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+                }
+            @endif
+
+            // Start polling
+            setInterval(fetchNotifications, 20000);
+            setInterval(checkNewNotification, 20000);
+            fetchNotifications();
+        });
     </script>
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
     @stack('scripts')
 <!-- SweetAlert2 Notifikasi -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -251,5 +400,18 @@
         });
     </script>
 @endif
+
+    @if(session('toast'))
+        <div 
+            x-data="{ show: true }" 
+            x-init="setTimeout(() => show = false, 5000)" 
+            x-show="show"
+            x-transition
+            class="fixed bottom-4 right-4 bg-white border border-gray-300 shadow-xl rounded-xl px-4 py-3 text-sm text-gray-800 z-50"
+        >
+            <strong>{{ session('toast')['title'] }}</strong>
+            <div>{{ session('toast')['message'] }}</div>
+        </div>
+    @endif
 </body>
 </html>

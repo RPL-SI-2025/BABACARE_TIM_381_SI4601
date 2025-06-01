@@ -71,6 +71,12 @@ class ReferralController extends Controller
         ]);
         
         $referral = Referral::create($referralData);
+
+        // Notify patient (pengguna) that referral is ready
+        $patientUser = $patient->pengguna;
+        if ($patientUser) {
+            $patientUser->notify(new \App\Notifications\ReferralReady($referral));
+        }
         
         return redirect()->route('referrals.index')
             ->with('success', 'Rujukan berhasil dibuat');

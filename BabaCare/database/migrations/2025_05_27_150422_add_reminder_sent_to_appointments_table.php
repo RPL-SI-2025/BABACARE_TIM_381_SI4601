@@ -9,14 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('obats', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_obat');
-            $table->text('deskripsi')->nullable();
-            $table->integer('stok')->default(0);
-            $table->timestamps();
+        Schema::table('appointments', function (Blueprint $table) {
+            $table->boolean('reminder_sent')->default(false);
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('obats');
+        Schema::table('appointments', function (Blueprint $table) {
+            //
+        });
     }
 };

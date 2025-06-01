@@ -35,6 +35,10 @@ class pengguna extends Authenticatable
         'remember_token',
     ];
 
+        public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
 
     /**
      * Get the vaccination registrations for the user.

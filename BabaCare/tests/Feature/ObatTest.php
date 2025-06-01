@@ -8,7 +8,7 @@ use App\Models\Obat;
 
 class ObatTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     public function test_bisa_melihat_halaman_obat()
     {

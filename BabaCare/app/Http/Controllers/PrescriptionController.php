@@ -50,6 +50,11 @@ class PrescriptionController extends Controller
         ]);
         
         $prescription = Prescription::create($prescriptionData);
+
+        // Notify patient (pengguna) that prescription is ready
+        if ($patient && $patient->pengguna) {
+            $patient->pengguna->notify(new \App\Notifications\PrescriptionReady($prescription));
+        }
         
         return redirect()->route('referrals.index', ['category' => 'resep'])
             ->with('success', 'Resep obat berhasil dibuat');
