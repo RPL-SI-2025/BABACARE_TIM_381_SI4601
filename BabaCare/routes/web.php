@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppointmentController;
