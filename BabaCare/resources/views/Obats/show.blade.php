@@ -15,12 +15,12 @@
 
         <div>
             <p class="text-gray-500 text-sm">Kategori</p>
-            <p class="text-lg font-semibold text-gray-800">{{ $obat->kategori }}</p>
+            <p class="text-lg font-semibold text-gray-800">{{ $obat->kategori->nama_kategori }}</p>
         </div>
 
         <div>
             <p class="text-gray-500 text-sm">Golongan</p>
-            <p class="text-lg font-semibold text-gray-800">{{ $obat->golongan }}</p>
+            <p class="text-lg font-semibold text-gray-800">{{ $obat->golongan->nama_golongan }}</p>
         </div>
 
         <div>

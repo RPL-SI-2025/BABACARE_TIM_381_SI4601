@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto rounded-lg">
+    <div class="overflow-y-auto max-h-96 border border-gray-300 rounded-lg shadow-sm">
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead class="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
                 <tr>
