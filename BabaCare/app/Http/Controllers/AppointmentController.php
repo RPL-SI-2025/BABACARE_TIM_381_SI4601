@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,12 +48,14 @@ class AppointmentController extends Controller
                 'waktu_pelaksanaan' => 'Waktu Pelaksanaan',
                 'keluhan_utama' => 'Keluhan Utama',
             ]);
+
+            $datetimePelaksanaan = Carbon::createFromFormat('Y-m-d H:i', $validated['tanggal_pelaksanaan'] . ' ' . $validated['waktu_pelaksanaan']);
             
             $appointment = Appointment::create([
                 'pengguna_id' => Auth::id(),
                 'tanggal_reservasi' => $validated['tanggal_reservasi'],
                 'tanggal_pelaksanaan' => $validated['tanggal_pelaksanaan'],
-                'waktu_pelaksanaan' => $validated['waktu_pelaksanaan'],
+                'waktu_pelaksanaan' => $datetimePelaksanaan,
                 'keluhan_utama' => $validated['keluhan_utama']
             ]);
 

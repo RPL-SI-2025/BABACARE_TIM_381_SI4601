@@ -34,4 +34,22 @@ class pengguna extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+    /**
+     * Get the vaccination registrations for the user.
+     */
+    public function vaccinationRegistrations(): HasMany
+    {
+        return $this->hasMany(VaccinationRegistration::class, 'pengguna_id');
+    }
+
+    /**
+     * Get the referral for the user.
+     */
+    public function referral(): HasMany
+    {
+        return $this->hasMany(Referral::class, 'staff_id');
+    }
 }
+
