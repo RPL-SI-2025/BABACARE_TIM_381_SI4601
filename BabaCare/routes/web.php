@@ -14,7 +14,6 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\PrescriptionController;
-use App\Http\Controllers\NotificationController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -83,7 +82,6 @@ Route::middleware('auth')->prefix('notifications')->group(function () {
     Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 });
 Route::get('/dashboarddataobat', [ObatController::class, 'dashboard'])->name('obats.dashboarddataobat');
-
 
 // Rujukan
 Route::prefix('referrals')->name('referrals.')->group(function () {

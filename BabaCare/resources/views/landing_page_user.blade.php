@@ -98,6 +98,8 @@
         #dropdownNotifMenu .notification-item {
             padding: 10px 15px;
             border-bottom: 1px solid #f1f1f1;
+            word-break: break-word;
+            white-space: normal;
         }
         #dropdownNotifMenu .notification-item:hover {
             background-color: #f8f9fa;
@@ -147,9 +149,19 @@
                                     <a href="{{ route('notifications.show', $notification->id) }}" class="dropdown-item notification-item">
                                         <div class="d-flex align-items-start">
                                             <i class="fas fa-bell me-2 mt-1 text-primary"></i>
-                                            <div>
+                                            <div style="word-break: break-word; white-space: normal;">
                                                 <div class="fw-medium">{{ $notification->data['title'] ?? 'Notifikasi' }}</div>
-                                                <div class="small">{{ $notification->data['message']  ?? '' }} Jam {{ $notification->data['time']  ?? '' }}</div>
+                                                <div class="small">
+                                                    {{ $notification->data['message'] ?? '' }}
+                                                    @php
+                                                        $title = $notification->data['title'] ?? '';
+                                                        $time = $notification->data['time'] ?? '';
+                                                        $showTime = $title && Str::contains($title, 'Reminder') && $time;
+                                                    @endphp
+                                                    @if($showTime)
+                                                        , Jam: <b>{{ $time }}</b>
+                                                    @endif
+                                                </div>
                                                 <div class="notification-time">{{ $notification->created_at->diffForHumans() }}</div>
                                             </div>
                                         </div>

@@ -14,7 +14,12 @@ public function index()
     if (auth()->user()->hasRole('user')) {
         return view('notifications.user.index', compact('notifications'));
     }
-
+    if (auth()->user()->hasRole('petugas')) {
+        return view('notifications.petugas.index', compact('notifications'));
+    }
+    if (auth()->user()->hasRole('admin')) {
+        return view('notifications.admin.index', compact('notifications'));
+    }
     return view('notifications.index', compact('notifications'));
 }
 
@@ -31,7 +36,12 @@ public function show($id)
     if (auth()->user()->hasRole('user')) {
         return view('notifications.user.show', compact('notification', 'notifications'));
     }
-
+    if (auth()->user()->hasRole('petugas')) {
+        return view('notifications.petugas.show', compact('notification', 'notifications'));
+    }
+    if (auth()->user()->hasRole('admin')) {
+        return view('notifications.admin.show', compact('notification', 'notifications'));
+    }
     return view('notifications.show', compact('notification', 'notifications'));
 }
 

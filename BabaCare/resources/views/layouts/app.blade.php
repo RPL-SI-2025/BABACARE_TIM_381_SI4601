@@ -73,16 +73,24 @@
                             
                             <!-- Menampilkan daftar notifikasi untuk user yang login -->
                             @forelse(auth()->user()->notifications->take(5) as $notif) 
-                                <div class="px-4 py-2 hover:bg-gray-100 text-sm {{ $notif->is_read ? 'text-gray-500' : 'text-gray-900 font-medium' }}">
+                                <div class="px-4 py-2 hover:bg-gray-100 text-sm border-b border-gray-100 {{ $notif->is_read ? 'text-gray-500' : 'text-gray-900 font-medium' }}">
                                     <div class="flex items-start gap-2">
-                                        @if($notif->icon ?? false)
-                                            <i class="{{ $notif->icon }} mt-1"></i> <!-- Menampilkan ikon jika ada -->
-                                        @endif
-                                        <div>
+                                        <i class="fas fa-bell mt-1 text-blue-500"></i>
+                                        <div style="word-break: break-word; white-space: normal;">
                                             <a href="{{ route('notifications.show', $notif->id) }}" class="block">
-                                            <div>{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-                                            <div class="text-xs text-gray-500">{{ $notif->data['message'] ?? '' }} {{ $notif->data['time'] ?? '' }}</div>
-                                            <div class="text-xs text-gray-400">{{ $notif->created_at->diffForHumans() }}</div>
+                                                <div class="font-medium">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+                                                <div class="text-xs text-gray-500">
+                                                    {{ $notif->data['message'] ?? '' }}
+                                                    @php
+                                                        $title = $notif->data['title'] ?? '';
+                                                        $time = $notif->data['time'] ?? '';
+                                                        $showTime = $title && Str::contains($title, 'Reminder') && $time;
+                                                    @endphp
+                                                    @if($showTime)
+                                                        , Jam: <b>{{ $time }}</b>
+                                                    @endif
+                                                </div>
+                                                <div class="text-xs text-gray-400">{{ $notif->created_at->diffForHumans() }}</div>
                                             </a>
                                         </div>
                                     </div>
