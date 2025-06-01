@@ -14,6 +14,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\PrescriptionController;
+use App\Http\Controllers\TenagaMedisController;
 
 // Rute default diarahkan ke halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -34,11 +35,21 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
 
 // Rute landing page untuk petugas
-Route::middleware(['auth'])->group(function () {
-    Route::get('/petugas', function () {
-        return view('landing_page_petugas');
-    })->name('petugas.landing');
+// Route landing page untuk petugas (tanpa auth agar bisa akses via session petugas)
+Route::get('/petugas', function () {
+    // Hanya izinkan jika session petugas ada
+    if (!session()->has('petugas')) {
+        return redirect()->route('login')->with('error', 'Silakan login sebagai petugas.');
+    }
+    // Data statistik
+    $totalPatients = \App\Models\Patient::count();
+    $todayPatients = \App\Models\Patient::whereDate('waktu_periksa', today())->count();
+    $inCarePatients = \App\Models\Patient::where('jenis_perawatan', 'Rawat Inap')->count();
+    return view('landing_page_petugas', compact('totalPatients', 'todayPatients', 'inCarePatients'));
+})->name('petugas.landing');
 
+// Route landing page admin dan user tetap pakai auth
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin', function () {
         return view('landing_page_admin');
     })->name('admin.landing');
@@ -102,4 +113,15 @@ Route::prefix('prescriptions')->name('prescriptions.')->group(function () {
     Route::put('/{prescription}', [PrescriptionController::class, 'update'])->name('update');
     Route::delete('/{prescription}', [PrescriptionController::class, 'destroy'])->name('destroy');
     Route::get('/{prescription}/download', [PrescriptionController::class, 'downloadPDF'])->name('download');
+});
+
+// Tenaga Medis Routes
+Route::prefix('tenaga_medis')->group(function () {
+    Route::get('/', [TenagaMedisController::class, 'index'])->name('tenaga_medis.index');
+    Route::get('/create', [TenagaMedisController::class, 'create'])->name('tenaga_medis.create');
+    Route::post('/', [TenagaMedisController::class, 'store'])->name('tenaga_medis.store');
+    Route::get('/{tenagaMedis}', [TenagaMedisController::class, 'show'])->name('tenaga_medis.show');
+    Route::get('/{tenagaMedis}/edit', [TenagaMedisController::class, 'edit'])->name('tenaga_medis.edit');
+    Route::put('/{tenagaMedis}', [TenagaMedisController::class, 'update'])->name('tenaga_medis.update');
+    Route::delete('/{tenagaMedis}', [TenagaMedisController::class, 'destroy'])->name('tenaga_medis.destroy');
 });
