@@ -20,7 +20,7 @@
     <div class="w-56 bg-white flex flex-col items-center py-8 shadow-md relative">
         <!-- Logo -->
         <div class="absolute top-5 left-5">
-            <a href="#">
+            <a href="/admin">
                 <img src="{{ asset('images/logo.png') }}" alt="BabaCare" class="h-10" />
             </a>
         </div>
@@ -172,37 +172,6 @@
         </main>
     </div>
 </div>
-<div class="flex-1 flex flex-col">
-        <!-- Header -->
-        <header class="flex items-center justify-end bg-white shadow px-6 py-8 relative">
-            <!-- Top right icons -->
-            <div class="flex items-center space-x-8 absolute right-10 top-4">
-                <a href="#" class="relative">
-                    <img src="{{ asset('storage/notifikasi.svg') }}" alt="Notifikasi" class="w-8 h-8">
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">3</span>
-                </a>
-                <a href="#" class="flex items-center space-x-3">
-                    <img src="{{ asset('storage/avatar.svg') }}" alt="Profile" class="w-8 h-8 rounded-full">
-                    <span class="text-gray-700 text-sm font-semibold">Admin</span>
-                </a>
-            </div>
-        </header>
-        <!-- Page Content -->
-        <main class="relative flex flex-col justify-center items-center" style="font-family: 'Roboto', sans-serif; min-height: 100vh; position: relative;">
-            <!-- Teks tengah -->
-            <div class="ms-5 ps-5">
-                <h1 class="fw-bold" style="font-size: 52px;">Puskesmas</h1>
-                <h1 class="fw-bold mb-2" style="font-size: 52px;">Babakan Tarogong</h1>
-                <p class="text-muted mb-5" style="font-size: 16px;">"Melayani dengan Amanah, Tulus, Adil dan Profesional"</p>
-                <button class="btn btn-outline-dark" style="font-size: 16px;">Contact Us</button>
-            </div>
-
-            <!-- Gambar kanan bawah -->
-            <img src="{{ asset('storage/background_lingkaran.png') }}" alt="Illustration"
-                class="absolute bottom-0 right-0" style="max-width: 530px; z-index: 0;">
-        </main>
-
-    </div>
 
 @stack('scripts')
 <script>

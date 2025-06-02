@@ -21,7 +21,7 @@
     <div class="w-56 bg-white flex flex-col items-center py-8 shadow-md relative">
         <!-- Logo -->
         <div class="absolute top-5 left-5">
-            <a href="#">
+            <a href="/admin">
                 <img src="{{ asset('storage/logo.png') }}" alt="BabaCare" class="h-10">
             </a>
         </div>
